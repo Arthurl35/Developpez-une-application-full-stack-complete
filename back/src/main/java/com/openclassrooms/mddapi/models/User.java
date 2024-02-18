@@ -1,14 +1,24 @@
 package com.openclassrooms.mddapi.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "User")
 public class User {
+
+    public User(String email, String username, String password, boolean active) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +36,7 @@ public class User {
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = true)
     private Timestamp updatedAt;
 
 }
