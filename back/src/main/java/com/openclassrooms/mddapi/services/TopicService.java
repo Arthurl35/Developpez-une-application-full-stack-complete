@@ -1,9 +1,7 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.models.Topic;
-import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.TopicRepository;
-import com.openclassrooms.mddapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,4 +21,5 @@ public class TopicService {
     public Topic findById(Long id) {
         return this.topicRepository.findById(id).orElse(null);
     }
+
 }
