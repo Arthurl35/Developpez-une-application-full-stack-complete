@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/topic")
+@RequestMapping("/api/topics")
 public class TopicController{
     private final TopicService topicService;
 

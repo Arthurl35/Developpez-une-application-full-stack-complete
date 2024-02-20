@@ -15,6 +15,10 @@ public class UserService {
     public User findById(Long id) {
         return this.userRepository.findById(id).orElse(null);
     }
+
+    public User save(User user) {
+        return this.userRepository.save(user);
+    }
 }
 
 
