@@ -11,9 +11,9 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class CommentDto {
     private Long id;
+    private String authorEmail;
     private String description;
     private Timestamp createdAt;
-    private Long userId;
     private Long postId;
 }
 

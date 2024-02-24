@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.controllers;
 
+import com.openclassrooms.mddapi.dto.CommentDto;
 import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.dto.PostGetDto;
 import com.openclassrooms.mddapi.models.Post;
@@ -47,6 +48,14 @@ public class PostController {
             postDto.setCreatedAt(post.getCreatedAt());
             postDto.setAuthorEmail(post.getUser().getEmail());
             postDto.setTopicTitle(post.getTopic().getTitle());
+            List<CommentDto> commentDtoList = post.getComments().stream()
+                    .map(comment -> {
+                        CommentDto commentDtoItem = modelMapper.map(comment, CommentDto.class);
+                        commentDtoItem.setAuthorEmail(comment.getUser().getEmail());
+                        return commentDtoItem;
+                    })
+                    .collect(Collectors.toList());
+            postDto.setComments(commentDtoList);
             return ResponseEntity.ok(postDto);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found with id: " + postId);

@@ -1,6 +1,8 @@
 package com.openclassrooms.mddapi.services;
 
+import com.openclassrooms.mddapi.dto.CommentDto;
 import com.openclassrooms.mddapi.dto.PostDto;
+import com.openclassrooms.mddapi.dto.PostGetDto;
 import com.openclassrooms.mddapi.models.Post;
 import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -46,10 +49,10 @@ public class PostService {
         return postRepository.findByUser(currentUser);
     }
 
-    public Post getPostById(Long id) {
-
-        User currentUser = securityUtils.getCurrentUser();
-        return postRepository.findByIdAndUser(id, currentUser)
-                .orElseThrow(() -> new RuntimeException("Post not found with id: " + id));
+    // Dans PostService
+    public Post getPostById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
     }
+
 }

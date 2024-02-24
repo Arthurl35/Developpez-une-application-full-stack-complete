@@ -22,8 +22,7 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity<?> addCommentToPost(@RequestBody CommentDto commentDTO) {
-        Comment savedComment = commentService.addComment(commentDTO);
-        CommentDto responseDTO = modelMapper.map(savedComment, CommentDto.class);
-        return ResponseEntity.ok(responseDTO);
+        commentService.addComment(commentDTO);
+        return ResponseEntity.ok("Post has been successfully created.");
     }
 }
