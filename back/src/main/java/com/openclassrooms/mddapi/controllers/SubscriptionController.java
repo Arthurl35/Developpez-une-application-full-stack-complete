@@ -19,62 +19,52 @@ import java.util.stream.Collectors;
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
     private final TopicService topicService;
-    private final UserService userService;
     private final ModelMapper modelMapper;
 
     public SubscriptionController(SubscriptionService subscriptionService,
-                                  UserService userService,
                                   TopicService topicService,
                                   ModelMapper modelMapper) {
         this.subscriptionService = subscriptionService;
-        this.userService = userService;
         this.topicService = topicService;
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping("/{topicId}/subscribe/{userId}")
-    public ResponseEntity<?> subscribeUserToTopic(@PathVariable Long topicId, @PathVariable Long userId) {
+    @PostMapping("/{topicId}/subscribe")
+    public ResponseEntity<?> subscribeCurrentUserToTopic(@PathVariable Long topicId) {
         Topic topic = topicService.findById(topicId);
-        User user = userService.findById(userId);
-
-        if (topic == null || user == null) {
-            return ResponseEntity.notFound().build();
+        if (topic == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Topic not found with id: " + topicId);
         }
 
-        if (subscriptionService.isUserSubscribedToTopic(user, topic)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("User is already subscribed to this topic");
+        try {
+            subscriptionService.subscribeCurrentUserToTopic(topic);
+            return ResponseEntity.ok().body("Successfully subscribed to the topic with id: " + topicId);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
-
-        subscriptionService.subscribeUserToTopic(user, topic);
-        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{topicId}/unsubscribe/{userId}")
-    public ResponseEntity<?> unsubscribeUserFromTopic(@PathVariable Long topicId, @PathVariable Long userId) {
+    @PostMapping("/{topicId}/unsubscribe")
+    public ResponseEntity<?> unsubscribeCurrentUserFromTopic(@PathVariable Long topicId) {
         Topic topic = topicService.findById(topicId);
-        User user = userService.findById(userId);
-
-        if (topic == null || user == null) {
+        if (topic == null) {
             return ResponseEntity.notFound().build();
         }
 
-        subscriptionService.unsubscribeUserFromTopic(user, topic);
-        return ResponseEntity.ok().build();
+        try {
+            subscriptionService.unsubscribeCurrentUserFromTopic(topic);
+            return ResponseEntity.ok().body("Successfully unsubscribed from the topic with id: " + topicId);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
-    @GetMapping("/subscribed/{userId}")
-    public ResponseEntity<?> getSubscribedTopicsByUser(@PathVariable Long userId) {
-        User user = userService.findById(userId);
-
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        List<Topic> topics = subscriptionService.getSubscribedTopicsByUser(user);
+    @GetMapping("/subscribed")
+    public ResponseEntity<?> getSubscribedTopicsByCurrentUser() {
+        List<Topic> topics = subscriptionService.getSubscribedTopicsByCurrentUser();
         List<TopicDto> topicsDto = topics.stream()
                 .map(topic -> modelMapper.map(topic, TopicDto.class))
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok().body(topicsDto);
     }
 }

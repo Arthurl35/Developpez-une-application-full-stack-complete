@@ -27,8 +27,12 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<?> addPost(@RequestBody PostDto postDTO) {
-        postService.addPost(postDTO);
-        return ResponseEntity.ok("Post has been successfully created.");
+        try {
+            postService.addPost(postDTO);
+            return ResponseEntity.ok("Post has been successfully created.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping
@@ -58,7 +62,7 @@ public class PostController {
             postDto.setComments(commentDtoList);
             return ResponseEntity.ok(postDto);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found with id: " + postId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 }
