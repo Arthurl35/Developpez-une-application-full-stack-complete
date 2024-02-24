@@ -24,7 +24,7 @@ public class SubscriptionController {
 
     public SubscriptionController(SubscriptionService subscriptionService,
                                   UserService userService,
-                                    TopicService topicService,
+                                  TopicService topicService,
                                   ModelMapper modelMapper) {
         this.subscriptionService = subscriptionService;
         this.userService = userService;

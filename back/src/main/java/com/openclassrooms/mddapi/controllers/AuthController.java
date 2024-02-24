@@ -9,6 +9,7 @@ import com.openclassrooms.mddapi.payload.response.JwtResponse;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.security.jwt.JwtUtils;
 import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
+import com.openclassrooms.mddapi.utils.PasswordValidator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -63,6 +64,13 @@ public class AuthController {
                     .body("Error: Email is already taken!");
 
                     //.body(new MessageResponse("Error: Email is already taken!"));
+        }
+
+        // Vérifier la validité du mot de passe
+        if (!PasswordValidator.isValid(signUpRequest.getPassword())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Error: Password is invalid!");
         }
 
         // Create new user's account

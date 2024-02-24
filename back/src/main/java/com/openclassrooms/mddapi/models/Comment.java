@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Data
 @Entity
@@ -18,9 +19,12 @@ public class Comment {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User author;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
