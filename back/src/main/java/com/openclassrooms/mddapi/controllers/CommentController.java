@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.services.CommentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,11 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity<?> addCommentToPost(@RequestBody CommentDto commentDTO) {
-        commentService.addComment(commentDTO);
-        return ResponseEntity.ok("Post has been successfully created.");
+        try {
+            commentService.addComment(commentDTO);
+            return ResponseEntity.ok("Comment has been successfully added.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
