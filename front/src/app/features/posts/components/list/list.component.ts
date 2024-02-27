@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SessionInformation } from '../../../../interfaces/sessionInformation.interface';
 import { SessionService } from '../../../../services/session.service';
-import {Post} from "../../interfaces/post.interface";
 import {PostApiService} from "../../services/posts-api.service";
 import {PostGet} from "../../interfaces/postGet.interface";
 

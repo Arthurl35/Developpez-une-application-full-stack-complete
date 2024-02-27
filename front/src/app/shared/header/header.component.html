@@ -1,0 +1,10 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <div *ngIf="$isLogged() | async; else notLoggedToolbar">
+    <span routerLink="sessions" class="link">Article</span>
+    <span routerLink="me" class="link">Theme</span>
+    <span (click)="logout()" class="link">Logout</span>
+  </div>
+  <ng-template #notLoggedToolbar>
+    <img src="../../assets/logo_p6.png" alt="logo" class="block mx-auto" />
+  </ng-template>
+</mat-toolbar>

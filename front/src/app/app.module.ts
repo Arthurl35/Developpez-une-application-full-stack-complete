@@ -12,9 +12,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { MatCardModule } from '@angular/material/card';
-//import { FlexLayoutModule } from '@angular/flex-layout';
-//import { MeComponent } from './components/me/me.component';
-import {HomeComponent} from "./pages/home/home.component";
+import { HeaderComponent } from './shared/header/header.component';
+
+
 
 const materialModule = [
   MatButtonModule,
@@ -27,6 +27,7 @@ const materialModule = [
 @NgModule({
   declarations: [
     AppComponent,
+    HeaderComponent,
     //NotFoundComponent,
     //MeComponent,
   ],
@@ -34,7 +35,6 @@ const materialModule = [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    //FlexLayoutModule,
     HttpClientModule,
     ...materialModule
   ],

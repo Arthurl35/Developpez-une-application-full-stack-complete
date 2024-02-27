@@ -1,21 +1,11 @@
 <div class="app">
-   <div *ngIf="$isLogged() | async; else notLogged">
-      <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
-        <span routerLink="sessions" class="link">Sessions</span>
-        <span routerLink="me" class="link">Account</span>
-        <span (click)="logout()" class="link">Logout</span>
-      </mat-toolbar>
-    </div>
-  <ng-template #notLogged>
-    <div class="flex flex-col justify-center items-center h-screen overflow-hidden">
+  <app-header *ngIf="isLoginOrRegisterRoute"></app-header>
+    <div *ngIf="!isLoginOrRegisterRoute" class="flex flex-col justify-center items-center h-screen overflow-hidden">
       <img src="/assets/logo_p6.png" alt="logo" class="block mx-auto" />
-      <div class="flex justify-center items-center gap-x-10">
-        <button mat-stroked-button routerLink="login" class="link">Se connecter</button>
-        <button mat-stroked-button routerLink="register" class="link">S'inscrire</button>
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-y-10 sm:gap-x-10">
+        <button mat-stroked-button routerLink="login" class="link w-full sm:w-auto">Se connecter</button>
+        <button mat-stroked-button routerLink="register" class="link w-full sm:w-auto">S'inscrire</button>
       </div>
     </div>
-  </ng-template>
-  <div>
-    <router-outlet></router-outlet>
-  </div>
+  <router-outlet></router-outlet>
 </div>

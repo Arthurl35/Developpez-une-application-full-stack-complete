@@ -12,6 +12,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+
+
   public hide = true;
   public onError = false;
 

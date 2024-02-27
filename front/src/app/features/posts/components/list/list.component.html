@@ -1,30 +1,23 @@
-<div class="list">
+<div class="pt-1 sm:pt-2 md:pt-2">
   <mat-card>
-    <div class="items mt2" fxLayout="row wrap" fxLayout.lt-md="column">
-      <mat-card class="item" *ngFor="let post of (posts$ | async)" fxFlex>
-        <mat-card-header>
-          <mat-card-title>{{ post.title }}</mat-card-title>
-          <mat-card-subtitle>
-            Session on {{ post.createdAt | date: 'longDate'}}
-            Session on {{ post.authorEmail }}
-          </mat-card-subtitle>
-        </mat-card-header>
-        <div mat-card-image fxLayoutAlign="center center">
-          <img class="picture" src="assets/sessions.png" alt="Yoga session">
-        </div>
-        <mat-card-content>
-          <p>
-            {{ post.description }}
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-raised-button color="primary" [routerLink]="['detail',post.id]">
-            <mat-icon>search</mat-icon>
-            <span class="ml1">Detail</span>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+    <button mat-raised-button color="primary" routerLink="create">
+      <span>Créer un article</span>
+    </button>
+    <div class="mt-3 sm:mt-6 md:mt-6 grid sm:grid-cols-1 md:grid-cols-2 gap-x-12  gap-y-8">
+      <ng-container *ngFor="let post of (posts$ | async)">
+        <a [routerLink]="['detail', post.id]" class="cursor-pointer">
+          <mat-card class="custom-card p-4 flex flex-col">
+            <mat-card-title class="mb-4">{{ post.title }}</mat-card-title>
+            <div class="flex justify-between items-start mb-4">
+              <mat-card-subtitle>{{ post.createdAt | date: 'longDate'}}</mat-card-subtitle>
+              <mat-card-subtitle>{{ post.authorEmail }}</mat-card-subtitle>
+            </div>
+            <mat-card-content>
+              <p>{{ post.description }}</p>
+            </mat-card-content>
+          </mat-card>
+        </a>
+      </ng-container>
     </div>
   </mat-card>
 </div>
-
