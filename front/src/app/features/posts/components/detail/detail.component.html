@@ -1,0 +1,26 @@
+<div class="m3">
+  <mat-card *ngIf="post">
+    <mat-card-title>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <button mat-icon-button (click)="back()">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+          <h1>{{post.title | titlecase}}</h1>
+        </div>
+      </div>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <div fxLayoutAlign="start center" class="ml3">
+        <mat-icon>
+          people
+        </mat-icon>
+      </div>
+    </mat-card-subtitle>
+    <div mat-card-image fxLayoutAlign="center center">
+      <img class="picture" src="assets/sessions.png" alt="Yoga session">
+    </div>
+    <mat-card-content>
+    </mat-card-content>
+  </mat-card>
+</div>

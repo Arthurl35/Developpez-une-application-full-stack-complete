@@ -15,7 +15,7 @@ const routes: Routes = [
     path: 'posts',
     canActivate: [AuthGuard],
     loadChildren: () => import('./features/posts/posts.module').then(m => m.PostsModule)
-  },
+  }
   //{
   //  path: 'sessions',
   //  canActivate: [AuthGuard],

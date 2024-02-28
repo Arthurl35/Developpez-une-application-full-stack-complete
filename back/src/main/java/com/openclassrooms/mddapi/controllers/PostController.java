@@ -29,7 +29,7 @@ public class PostController {
     public ResponseEntity<?> addPost(@RequestBody PostDto postDTO) {
         try {
             postService.addPost(postDTO);
-            return ResponseEntity.ok("Post has been successfully created.");
+            return ResponseEntity.ok("Le post a été créé avec succès.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -39,7 +39,11 @@ public class PostController {
     public ResponseEntity<?> getAllPosts() {
         List<PostDto> posts = postService.getAllPosts().stream()
                 .sorted(Comparator.comparing(Post::getCreatedAt).reversed())
-                .map(post -> modelMapper.map(post, PostDto.class))
+                .map(post -> {
+                    PostDto postDto = modelMapper.map(post, PostDto.class);
+                    postDto.setAuthorEmail(post.getUser().getEmail()); // set authorEmail
+                    return postDto;
+                })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(posts);
     }

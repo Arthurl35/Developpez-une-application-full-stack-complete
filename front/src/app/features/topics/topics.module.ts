@@ -8,11 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ListComponent } from './components/list/list.component';
-import { DetailComponent } from './components/detail/detail.component';
-import { PostsRoutingModule } from './posts-routing.module';
 import localeFr from '@angular/common/locales/fr';
-import {FormComponent} from "./components/form/form.component";
+import {TopicsRoutingModule} from "./topics-routing.module";
 registerLocaleData(localeFr);
 
 const materialModules = [
@@ -27,15 +24,14 @@ const materialModules = [
 
 @NgModule({
   declarations: [
-    ListComponent,
-    FormComponent,
-    DetailComponent
+    //ListComponent,
+   // DetailComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    PostsRoutingModule,
+    TopicsRoutingModule,
     ...materialModules
   ]
 })
-export class PostsModule { }
+export class TopicsModule { }

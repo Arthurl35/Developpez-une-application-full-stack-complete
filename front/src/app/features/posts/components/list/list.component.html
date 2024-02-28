@@ -5,7 +5,7 @@
     </button>
     <div class="mt-3 sm:mt-6 md:mt-6 grid sm:grid-cols-1 md:grid-cols-2 gap-x-12  gap-y-8">
       <ng-container *ngFor="let post of (posts$ | async)">
-        <a [routerLink]="['detail', post.id]" class="cursor-pointer">
+        <a [routerLink]="[post.id]" class="cursor-pointer">
           <mat-card class="custom-card p-4 flex flex-col">
             <mat-card-title class="mb-4">{{ post.title }}</mat-card-title>
             <div class="flex justify-between items-start mb-4">
