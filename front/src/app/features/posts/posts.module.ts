@@ -13,6 +13,7 @@ import { DetailComponent } from './components/detail/detail.component';
 import { PostsRoutingModule } from './posts-routing.module';
 import localeFr from '@angular/common/locales/fr';
 import {FormComponent} from "./components/form/form.component";
+import {MatListModule} from "@angular/material/list";
 registerLocaleData(localeFr);
 
 const materialModules = [
@@ -31,11 +32,12 @@ const materialModules = [
     FormComponent,
     DetailComponent
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    PostsRoutingModule,
-    ...materialModules
-  ]
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        PostsRoutingModule,
+        ...materialModules,
+        MatListModule
+    ]
 })
 export class PostsModule { }

@@ -1,26 +1,22 @@
-<div class="m3">
-  <mat-card *ngIf="post">
-    <mat-card-title>
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <button mat-icon-button (click)="back()">
-            <mat-icon>arrow_back</mat-icon>
-          </button>
-          <h1>{{post.title | titlecase}}</h1>
-        </div>
-      </div>
-    </mat-card-title>
-    <mat-card-subtitle>
-      <div fxLayoutAlign="start center" class="ml3">
-        <mat-icon>
-          people
-        </mat-icon>
-      </div>
-    </mat-card-subtitle>
-    <div mat-card-image fxLayoutAlign="center center">
-      <img class="picture" src="assets/sessions.png" alt="Yoga session">
+<div class="pt-1 sm:pt-2 md:pt-2 flex flex-col sm:flex-row">
+  <button mat-icon-button (click)="back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <mat-card *ngIf="post" class="w-full no-shadow ">
+    <div class="flex items-center mb-4">
+      <mat-card-title>{{ post.title | titlecase }}</mat-card-title>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-2">
+      <mat-card-subtitle>{{ post.createdAt | date: 'longDate'}}</mat-card-subtitle>
+      <mat-card-subtitle>{{ post.authorEmail }}</mat-card-subtitle>
+      <mat-card-subtitle>{{ post.topicTitle }}</mat-card-subtitle>
     </div>
     <mat-card-content>
+      <p>{{ post.description }}</p>
+      <mat-divider class="my-4"></mat-divider>
     </mat-card-content>
+    <mat-card-actions>
+      <p>commentaires</p>
+    </mat-card-actions>
   </mat-card>
 </div>

@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { UnauthGuard } from './guards/unauth.guard';
 
-// consider a guard combined with canLoad / canActivate route option
-// to manage unauthenticated user to access private routes
 const routes: Routes = [
   {
     path: '',
@@ -15,6 +13,11 @@ const routes: Routes = [
     path: 'posts',
     canActivate: [AuthGuard],
     loadChildren: () => import('./features/posts/posts.module').then(m => m.PostsModule)
+  },
+  {
+    path: 'topics',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./features/topics/topics.module').then(m => m.TopicsModule)
   }
   //{
   //  path: 'sessions',

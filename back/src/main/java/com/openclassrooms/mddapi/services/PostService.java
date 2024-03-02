@@ -58,18 +58,12 @@ public class PostService {
     }
 
     public List<Post> getAllPosts() {
-        User currentUser = securityUtils.getCurrentUser();
-        List<Topic> subscribedTopics = currentUser.getSubscriptions().stream()
-                .map(Subscription::getTopic)
-                .collect(Collectors.toList());
+        List<Topic> subscribedTopics = getTopics();
         return postRepository.findByTopicIn(subscribedTopics);
     }
 
     public Post getPostById(Long postId){
-        User currentUser = securityUtils.getCurrentUser();
-        List<Topic> subscribedTopics = currentUser.getSubscriptions().stream()
-                .map(Subscription::getTopic)
-                .collect(Collectors.toList());
+        List<Topic> subscribedTopics = getTopics();
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
@@ -79,5 +73,13 @@ public class PostService {
         }
 
         return post;
+    }
+
+    private List<Topic> getTopics() {
+        User currentUser = securityUtils.getCurrentUser();
+        List<Topic> subscribedTopics = currentUser.getSubscriptions().stream()
+                .map(Subscription::getTopic)
+                .collect(Collectors.toList());
+        return subscribedTopics;
     }
 }

@@ -15,10 +15,14 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final SecurityUtils securityUtils;
 
+    private final TopicService topicService;
+
     public SubscriptionService(SubscriptionRepository subscriptionRepository,
-                               SecurityUtils securityUtils) {
+                                                SecurityUtils securityUtils,
+                                                TopicService topicService) {
         this.subscriptionRepository = subscriptionRepository;
         this.securityUtils = securityUtils;
+        this.topicService = topicService;
     }
 
     public void subscribeCurrentUserToTopic(Topic topic) throws Exception {

@@ -1,0 +1,24 @@
+<div class="pt-1 sm:pt-2 md:pt-2">
+  <mat-card class="no-shadow">
+    <div class="mt-3 sm:mt-6 md:mt-6 grid sm:grid-cols-1 md:grid-cols-2 gap-x-12  gap-y-8">
+      <ng-container *ngIf="(topics$ | async)?.length; else noTopics">
+        <ng-container *ngFor="let topic of (topics$ | async)">
+          <mat-card class="custom-card p-4 flex flex-col">
+            <mat-card-title class="mb-4">{{ topic.title }}</mat-card-title>
+            <mat-card-content>
+              <p>{{ topic.description }}</p>
+            </mat-card-content>
+            <mat-card-actions class="items-center justify-center">
+              <button mat-raised-button color="primary" (click)="subscribe(topic.id)">S'abonner</button>
+            </mat-card-actions>
+          </mat-card>
+        </ng-container>
+      </ng-container>
+      <ng-template #noTopics>
+        <mat-card class="custom-card p-4 flex flex-col">
+          <mat-card-title class="mb-4">Vous êtes déjà abonné à tous les thèmes</mat-card-title>
+        </mat-card>
+      </ng-template>
+    </div>
+  </mat-card>
+</div>

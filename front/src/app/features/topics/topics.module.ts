@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import localeFr from '@angular/common/locales/fr';
 import {TopicsRoutingModule} from "./topics-routing.module";
+import {ListComponent} from "./components/list/list.component";
 registerLocaleData(localeFr);
 
 const materialModules = [
@@ -24,7 +25,7 @@ const materialModules = [
 
 @NgModule({
   declarations: [
-    //ListComponent,
+    ListComponent,
    // DetailComponent
   ],
   imports: [

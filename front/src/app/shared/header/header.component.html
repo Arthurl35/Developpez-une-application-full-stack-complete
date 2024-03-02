@@ -1,10 +1,13 @@
-<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
-  <div *ngIf="$isLogged() | async; else notLoggedToolbar">
-    <span routerLink="sessions" class="link">Article</span>
-    <span routerLink="me" class="link">Theme</span>
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+  <div *ngIf="$isLogged() | async; else notLoggedToolbar" class="flex justify-start items-center">
+    <img src="../../assets/logo_p6.png" alt="logo mdd" class="block mx-auto w-24 h-auto" />
+    <span routerLink="posts" class="link">Article</span>
+    <span routerLink="topics" class="link">Theme</span>
     <span (click)="logout()" class="link">Logout</span>
   </div>
   <ng-template #notLoggedToolbar>
-    <img src="../../assets/logo_p6.png" alt="logo" class="block mx-auto" />
+    <div class="flex justify-start items-center">
+      <img src="../../assets/logo_p6.png" alt="logo mdd" class="block mx-auto w-24 h-auto" />
+    </div>
   </ng-template>
 </mat-toolbar>
