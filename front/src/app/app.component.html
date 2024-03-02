@@ -1,5 +1,7 @@
 <div class="app">
   <app-header *ngIf="isLoginOrRegisterRoute"></app-header>
+  <mat-divider class="my-4"></mat-divider>
+
     <div *ngIf="!isLoginOrRegisterRoute" class="flex flex-col justify-center items-center h-screen overflow-hidden">
       <img src="/assets/logo_p6.png" alt="logo" class="block mx-auto" />
       <div class="flex flex-col sm:flex-row justify-center items-center gap-y-10 sm:gap-x-10">

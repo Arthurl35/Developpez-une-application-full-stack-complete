@@ -33,9 +33,9 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
-    public Comment addComment(CommentDto commentDto) {
+    public Comment addComment(CommentDto commentDto, Long postId) {
         User currentUser = securityUtils.getCurrentUser();
-        Post post = postRepository.findById(commentDto.getPostId())
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found with id: " + commentDto.getPostId()));
 
         Topic postTopic = post.getTopic();

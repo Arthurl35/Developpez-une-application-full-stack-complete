@@ -17,6 +17,16 @@
     </mat-card-content>
     <mat-card-actions>
       <p>commentaires</p>
+      <div *ngFor="let comment of post.comments" class="flex flex-col sm:flex-row items-start  p-4 mb-2 gap-4">
+        <p class="mr-2">{{ comment.authorEmail }}</p>
+        <p class="flex-grow bg-gray-200 rounded-lg p-4">{{ comment.description }}</p>
+      </div>
+      <form [formGroup]="commentForm" (ngSubmit)="addComment(post.id)"class="mt-4">
+        <div class="border border-black rounded-lg p-4">
+          <textarea matInput rows="8" formControlName="description"></textarea>
+        </div>
+        <button mat-raised-button color="primary" type="submit" placeholder="Écrivez ici votre commentaire">Submit</button>
+      </form>
     </mat-card-actions>
   </mat-card>
 </div>

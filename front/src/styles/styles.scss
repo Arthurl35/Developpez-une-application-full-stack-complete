@@ -9,6 +9,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .active-link {
   color: #7763C5;
 }
+.user-wrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(217, 217, 217, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-wrapper.active {
+  background-color: rgba(217, 217, 217, 1);
+  border: 2px solid #7763C5;
+}
 
 .custom-card {
   background: rgba(245, 245, 245, 1);
@@ -25,4 +39,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 mat-toolbar {
   background: none !important;
+}
+
+.border-custom {
+  border: 2px solid rgba(119, 99, 197, 1);
 }

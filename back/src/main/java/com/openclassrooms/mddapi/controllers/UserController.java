@@ -4,6 +4,7 @@ import com.openclassrooms.mddapi.dto.UserGetDto;
 import com.openclassrooms.mddapi.dto.UserUpdateDto;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.services.UserService;
+import com.openclassrooms.mddapi.utils.SecurityUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,13 +18,17 @@ public class UserController {
     private final UserService userService;
     private ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private SecurityUtils securityUtils;
+
 
     public UserController(UserService userService,
                           ModelMapper modelMapper,
-                          PasswordEncoder passwordEncoder) {
+                          PasswordEncoder passwordEncoder,
+                          SecurityUtils securityUtils) {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
+        this.securityUtils = securityUtils;
     }
 
     @GetMapping("/{id}")
@@ -41,10 +46,11 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserUpdateDto userUpdateDto) {
+    @PutMapping()
+    public ResponseEntity<?> update(@RequestBody UserUpdateDto userUpdateDto) {
         try {
-            User user = this.userService.findById(Long.valueOf(id));
+            User currentUser = securityUtils.getCurrentUser();
+            User user = this.userService.findById(Long.valueOf(currentUser.getId()));
 
             if (user == null) {
                 return ResponseEntity.notFound().build();

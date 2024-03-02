@@ -13,7 +13,15 @@ export class SubscriptionsApiService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public subscribeCurrentUserToTopic(id: string): Observable<Topic> {
-    return this.httpClient.post<Topic>(`${this.pathService}/${id}/subscribe`, {});
+  public findTopicsByUser(): Observable<Topic[]> {
+    return this.httpClient.get<Topic[]>(`${this.pathService}/subscribed`);
+  }
+
+  public unsubscribeFromTopic(topicId: number): Observable<Topic> {
+    return this.httpClient.post<Topic>(`${this.pathService}/${topicId}/unsubscribe`, {});
+  }
+
+  public subscribeCurrentUserToTopic(topicId: string): Observable<any> {
+    return this.httpClient.post(`${this.pathService}/${topicId}/subscribe`, {});
   }
 }

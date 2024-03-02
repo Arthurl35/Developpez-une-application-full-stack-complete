@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/api/")
 public class CommentController {
     private CommentService commentService;
     private ModelMapper modelMapper;
@@ -21,10 +21,10 @@ public class CommentController {
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping
-    public ResponseEntity<?> addCommentToPost(@RequestBody CommentDto commentDTO) {
+    @PostMapping("posts/{postId}/comments")
+    public ResponseEntity<?> addCommentToPost(@PathVariable Long postId, @RequestBody CommentDto commentDTO) {
         try {
-            commentService.addComment(commentDTO);
+            commentService.addComment(commentDTO, postId);
             return ResponseEntity.ok("Comment has been successfully added.");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

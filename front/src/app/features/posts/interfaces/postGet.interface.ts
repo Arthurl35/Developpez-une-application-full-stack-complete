@@ -1,4 +1,4 @@
-//import { CommentDto } from './comment.interface';
+import { Comment } from './comment.interface';
 
 export interface PostGet {
   id: number;
@@ -8,5 +8,5 @@ export interface PostGet {
   createdAt: string;
   authorEmail: string;
   topicTitle: string;
-  //comments: Comment[];
+  comments: Comment[];
 }

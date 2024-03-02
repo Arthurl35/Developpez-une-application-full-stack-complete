@@ -13,6 +13,6 @@ public class UserGetDto {
     private Long id;
     private String username;
     private String email;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 }
