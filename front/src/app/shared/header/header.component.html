@@ -1,9 +1,18 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
   <div *ngIf="$isLogged() | async; else notLoggedToolbar" class="flex justify-start items-center">
     <img src="../../assets/logo_p6.png" alt="logo mdd" class="block mx-auto w-24 h-auto" />
-    <span routerLink="posts" class="link">Article</span>
-    <span routerLink="topics" class="link">Theme</span>
-    <span (click)="logout()" class="link">Logout</span>
+    <span routerLink="posts" routerLinkActive="active-link" class="link">Article</span>
+    <span routerLink="topics" routerLinkActive="active-link" class="link">Theme</span>
+    <span routerLink="me" routerLinkActive="active-link" class="link">
+      <img *ngIf="router.url === '/me'; else grayUser" src="../../assets/profil_purple/user.svg" alt="user" class="w-6 h-6" />
+      <ng-template #grayUser>
+        <img src="../../assets/profil_gray/user.svg" alt="user" class="w-6 h-6" />
+      </ng-template>
+      <img *ngIf="router.url === '/me'; else grayEllipse" src="../../assets/profil_purple/ellipse.svg" alt="ellipse" class="w-6 h-6" />
+      <ng-template #grayEllipse>
+        <img src="../../assets/profil_gray/ellipse.svg" alt="ellipse" class="w-6 h-6" />
+      </ng-template>
+    </span>
   </div>
   <ng-template #notLoggedToolbar>
     <div class="flex justify-start items-center">

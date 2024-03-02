@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.isLoginOrRegisterRoute = ['/login', '/register'].includes(event.urlAfterRedirects) || /^\/posts/.test(event.urlAfterRedirects ) || /^\/topics/.test(event.urlAfterRedirects );
+        this.isLoginOrRegisterRoute = ['/login', '/register', '/me'].includes(event.urlAfterRedirects) || /^\/posts/.test(event.urlAfterRedirects ) || /^\/topics/.test(event.urlAfterRedirects );
       }
     });
   }

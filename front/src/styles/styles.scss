@@ -6,6 +6,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.active-link {
+  color: #7763C5;
+}
+
 .custom-card {
   background: rgba(245, 245, 245, 1);
 }

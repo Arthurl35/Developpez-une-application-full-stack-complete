@@ -13,6 +13,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { MatCardModule } from '@angular/material/card';
 import { HeaderComponent } from './shared/header/header.component';
+import {MeComponent} from "./components/me/me.component";
 
 
 
@@ -29,7 +30,7 @@ const materialModule = [
     AppComponent,
     HeaderComponent,
     //NotFoundComponent,
-    //MeComponent,
+    MeComponent,
   ],
   imports: [
     BrowserModule,

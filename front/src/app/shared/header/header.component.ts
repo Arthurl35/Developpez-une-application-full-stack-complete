@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(private sessionService: SessionService, private router: Router) { }
+  constructor(private sessionService: SessionService, public router: Router) { }
 
   public $isLogged(): Observable<boolean> {
     return this.sessionService.$isLogged();
