@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,7 +30,8 @@ public class PostController {
     public ResponseEntity<?> addPost(@RequestBody PostDto postDTO) {
         try {
             postService.addPost(postDTO);
-            return ResponseEntity.ok("Le post a été créé avec succès.");
+            return ResponseEntity.ok().body(Map.of("message", "Le post a été créé avec succès."));
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -65,6 +67,7 @@ public class PostController {
                     .collect(Collectors.toList());
             postDto.setComments(commentDtoList);
             return ResponseEntity.ok(postDto);
+
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

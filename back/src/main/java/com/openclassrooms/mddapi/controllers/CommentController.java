@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/")
 public class CommentController {
@@ -21,13 +23,24 @@ public class CommentController {
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping("posts/{postId}/comments")
-    public ResponseEntity<?> addCommentToPost(@PathVariable Long postId, @RequestBody CommentDto commentDTO) {
-        try {
-            commentService.addComment(commentDTO, postId);
-            return ResponseEntity.ok("Comment has been successfully added.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+//    @PostMapping("posts/{postId}")
+//    public ResponseEntity<?> addCommentToPost(@PathVariable Long postId, @RequestBody CommentDto commentDTO) {
+//        try {
+//            commentService.addComment(commentDTO, postId);
+//            return ResponseEntity.ok("Comment has been successfully added.");
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
+@PostMapping("posts/{postId}")
+public ResponseEntity<?> addCommentToPost(@PathVariable Long postId, @RequestBody CommentDto commentDTO) {
+    try {
+        commentService.addComment(commentDTO, postId);
+        return ResponseEntity.ok().body(Map.of("message", "Comment has been successfully added."));
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+}
+
+
 }

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -38,7 +39,8 @@ public class SubscriptionController {
 
         try {
             subscriptionService.subscribeCurrentUserToTopic(topic);
-            return ResponseEntity.ok().body("Successfully subscribed to the topic with id: " + topicId);
+            return ResponseEntity.ok().body(Map.of("message", "Successfully subscribed to the topic with id: " + topicId));
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
@@ -53,7 +55,9 @@ public class SubscriptionController {
 
         try {
             subscriptionService.unsubscribeCurrentUserFromTopic(topic);
-            return ResponseEntity.ok().body("Successfully unsubscribed from the topic with id: " + topicId);
+            return ResponseEntity.ok().body(Map.of("message", "Successfully unsubscribed from the topic with id: " + topicId));
+
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
