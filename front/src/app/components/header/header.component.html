@@ -10,9 +10,9 @@
   <div class="hidden sm:flex justify-start items-center w-full">
     <img src="../../assets/logo_p6.png" alt="logo mdd" class="block w-24 h-auto mr-auto" />
     <div class="flex gap-4 ml-auto">
-      <span routerLink="posts" routerLinkActive="active-link" class="link">Articles</span>
-      <span routerLink="topics" routerLinkActive="active-link" class="link">Thèmes</span>
-      <span routerLink="me" routerLinkActive="active-link" class="link">
+      <span routerLink="posts" routerLinkActive="active-link" class="link cursor-pointer">Articles</span>
+      <span routerLink="topics" routerLinkActive="active-link" class="link cursor-pointer">Thèmes</span>
+      <span routerLink="me" routerLinkActive="active-link" class="link cursor-pointer">
         <div class="user-wrapper" [ngClass]="{ 'active': router.url === '/me' }">
            <img [src]="(router.url === '/me') ? '../../assets/profil_purple/user.svg' : '../../assets/profil_gray/user.svg'" alt="user" class="w-6 h-6" />
         </div>
@@ -23,11 +23,11 @@
     <div class="fixed top-0 right-0 z-50 h-full w-1/2 bg-white">
       <div class="flex flex-col justify-between items-end h-full pr-8">
         <div class="flex flex-col text-right mt-36">
-          <span routerLink="posts" routerLinkActive="active-link" class="link" (click)="drawer.close()">Articles</span>
-          <span routerLink="topics" routerLinkActive="active-link" class="link" (click)="drawer.close()">Thèmes</span>
+          <span routerLink="posts" routerLinkActive="active-link" class="link cursor-pointer" (click)="drawer.close()">Articles</span>
+          <span routerLink="topics" routerLinkActive="active-link" class="link cursor-pointer" (click)="drawer.close()">Thèmes</span>
         </div>
         <div>
-        <span routerLink="me" routerLinkActive="active-link" class="link" (click)="drawer.close()">
+        <span routerLink="me" routerLinkActive="active-link" class="link cursor-pointer" (click)="drawer.close()">
           <div class="user-wrapper  mb-12" [ngClass]="{ 'active': router.url === '/me' }">
             <img [src]="(router.url === '/me') ? '../../assets/profil_purple/user.svg' : '../../assets/profil_gray/user.svg'" alt="user" class="w-6 h-6" />
           </div>
@@ -38,4 +38,5 @@
     <div class="fixed top-0 left-0 z-50 h-full w-1/2 bg-gray-100 bg-opacity-70 z-40" (click)="drawer.close()"></div>
   </mat-drawer>
 </mat-toolbar>
+<mat-divider class="my-4"></mat-divider>
 
