@@ -17,6 +17,7 @@ import {MeComponent} from "./components/me/me.component";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 
 
@@ -35,16 +36,17 @@ const materialModule = [
     //NotFoundComponent,
     MeComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        ...materialModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatDividerModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    ...materialModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatDividerModule,
+    MatSidenavModule
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
