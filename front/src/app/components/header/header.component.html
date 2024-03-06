@@ -9,7 +9,7 @@
   </div>
   <div class="hidden sm:flex justify-start items-center w-full">
     <img src="../../assets/logo_p6.png" alt="logo mdd" class="block w-24 h-auto mr-auto" />
-    <div class="flex gap-4 ml-auto">
+    <div *ngIf="$isLogged() | async" class="flex gap-4 ml-auto">
       <span routerLink="posts" routerLinkActive="active-link" class="link cursor-pointer">Articles</span>
       <span routerLink="topics" routerLinkActive="active-link" class="link cursor-pointer">Thèmes</span>
       <span routerLink="me" routerLinkActive="active-link" class="link cursor-pointer">

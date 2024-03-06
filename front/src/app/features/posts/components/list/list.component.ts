@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { SessionInformation } from '../../../../interfaces/sessionInformation.interface';
 import { SessionService } from '../../../../services/session.service';
-import {PostApiService} from "../../services/posts-api.service";
-import {PostGet} from "../../interfaces/postGet.interface";
+import { PostApiService } from "../../services/posts-api.service";
+import { PostGet } from "../../interfaces/postGet.interface";
 
 @Component({
   selector: 'app-list',
@@ -12,14 +12,27 @@ import {PostGet} from "../../interfaces/postGet.interface";
 })
 export class ListComponent {
 
-  public posts$: Observable<PostGet[]> = this.postApiService.getAllPosts();
+  public posts$: Observable<PostGet[]>;
+  public isDescendingOrder: boolean = false;
 
   constructor(
-    private sessionService: SessionService,
     private postApiService: PostApiService
-  ) { }
+  ) {
+    this.posts$ = this.postApiService.getAllPosts();
+  }
 
-  get user(): SessionInformation | undefined {
-    return this.sessionService.sessionInformation;
+  public sort(): void {
+    this.isDescendingOrder = !this.isDescendingOrder; // Inverse l'ordre à chaque clic
+    this.posts$ = this.posts$.pipe(
+      map((posts) =>
+        posts.sort((a, b) => {
+          if (this.isDescendingOrder) {
+            return a.createdAt < b.createdAt ? 1 : -1; // Tri descendant
+          } else {
+            return a.createdAt > b.createdAt ? 1 : -1; // Tri ascendant
+          }
+        })
+      )
+    );
   }
 }

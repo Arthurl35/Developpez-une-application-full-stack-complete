@@ -1,8 +1,15 @@
 <div class="pt-1 sm:pt-2 md:pt-2">
   <mat-card class="no-shadow">
-    <button mat-raised-button color="primary" routerLink="create">
-      <span>Créer un article</span>
-    </button>
+    <div class="pt-1 sm:pt-2 md:pt-2 flex flex-col sm:flex-row justify-between">
+      <button mat-raised-button color="primary" routerLink="create" class="text-center">
+        <span>Créer un article</span>
+      </button>
+      <button mat-flat-button (click)="sort()" class="w-full sm:w-auto">
+        <span>Trier par</span>
+        <mat-icon fontIcon="{{ isDescendingOrder ? 'arrow_upward' : 'arrow_downward' }}"></mat-icon>
+      </button>
+    </div>
+
     <div class="mt-3 sm:mt-6 md:mt-6 grid sm:grid-cols-1 md:grid-cols-2 gap-x-12  gap-y-8">
       <ng-container *ngFor="let post of (posts$ | async)">
         <a [routerLink]="[post.id]" class="cursor-pointer">
