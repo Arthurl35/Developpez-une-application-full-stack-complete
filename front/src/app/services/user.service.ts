@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 import {PostGet} from "../features/posts/interfaces/postGet.interface";
+import {userUpdate} from "../interfaces/userUpdate.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class UserService {
     return this.httpClient.get<User>(`${this.pathService}/${id}`);
   }
 
-  public updateUser(updatedUser: User): Observable<User> {
-    return this.httpClient.put<User>(this.pathService,{});
+  public updateUser(updatedUser: userUpdate): Observable<userUpdate> {
+    return this.httpClient.put<userUpdate>(this.pathService, updatedUser,{ responseType: 'text' as 'json' });
   }
 }

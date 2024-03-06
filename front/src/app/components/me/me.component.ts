@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User } from '../../interfaces/user.interface';
+import {userUpdate} from "../../interfaces/userUpdate.interface";
 import { SessionService } from '../../services/session.service';
 import { UserService } from '../../services/user.service';
 import { SessionInformation } from "../../interfaces/sessionInformation.interface";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject } from "rxjs";
-import { PostGet } from "../../features/posts/interfaces/postGet.interface";
 import { Topic } from "../../features/topics/interfaces/topic.interface";
 import { SubscriptionsApiService } from "../../features/subscription/services/subscriptions-api.service";
+
 
 @Component({
   selector: 'app-me',
@@ -28,11 +29,10 @@ export class MeComponent implements OnInit {
               private matSnackBar: MatSnackBar,
               private userService: UserService,
               private fb: FormBuilder) {
-    this.form = this.fb.group({
-      username: [''],
-      email: [''],
-      password: ['']
-    });
+              this.form = this.fb.group({
+                email: ['', [Validators.required, Validators.email]],
+                username: ['', [Validators.required]],
+              });
 
     this.topics$ = this.topicsSubject.asObservable();
   }
@@ -61,16 +61,12 @@ export class MeComponent implements OnInit {
 
   public submit(): void {
     if (this.form.valid) {
-      const updatedUser = this.form.value as User;
-      this.userService.updateUser(updatedUser).subscribe(() => {
-        this.matSnackBar.open('User updated successfully', 'Close', {
-          duration: 3000
-        });
-      }, error => {
-        this.matSnackBar.open('Error updating user', 'Close', {
-          duration: 3000
-        });
+      const updatedUser = this.form.value as userUpdate;
+      console.log(updatedUser);
+      this.userService.updateUser(updatedUser).subscribe(response => {
+        this.matSnackBar.open("Utilisateur modifié", 'Close', { duration: 3000 });
       });
+      this.logout();
     }
   }
 
@@ -81,15 +77,16 @@ export class MeComponent implements OnInit {
 
   public unsubscribe(topicId: number): void {
     this.subscriptionsApiService.unsubscribeFromTopic(topicId).subscribe(() => {
-      this.matSnackBar.open('Unsubscribed successfully', 'Close', {
+      this.matSnackBar.open('Désabonnement réussi', 'Fermer', {
         duration: 3000
       });
-      // Refresh the list of topics after successful unsubscription
+      // Rafraîchir la liste des sujets après le désabonnement réussi
       this.loadTopics();
     }, error => {
-      this.matSnackBar.open('Error while unsubscribing', 'Close', {
+      this.matSnackBar.open('Erreur lors du désabonnement', 'Fermer', {
         duration: 3000
       });
     });
   }
+}
 }
