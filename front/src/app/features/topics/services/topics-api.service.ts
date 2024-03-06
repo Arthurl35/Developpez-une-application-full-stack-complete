@@ -13,8 +13,12 @@ export class TopicsApiService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public findAll(): Observable<Topic[]> {
-    return this.httpClient.get<Topic[]>(this.pathService);
+  public getUnsubscribedTopics(): Observable<Topic[]> {
+    return this.httpClient.get<Topic[]>(`${this.pathService}/unsubscribed`);
+  }
+
+  public getSubscribedTopics(): Observable<Topic[]> {
+    return this.httpClient.get<Topic[]>(`${this.pathService}/subscribed`);
   }
 
   public findById(id: string): Observable<Topic> {

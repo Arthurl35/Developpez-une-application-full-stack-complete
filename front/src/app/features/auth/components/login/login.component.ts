@@ -5,6 +5,7 @@ import { SessionInformation } from 'src/app/interfaces/sessionInformation.interf
 import { SessionService } from 'src/app/services/session.service';
 import { LoginRequest } from '../../interfaces/loginRequest.interface';
 import { AuthService } from '../../services/auth.service';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,6 @@ export class LoginComponent {
 
 
   public hide = true;
-  public onError = false;
 
   public form = this.fb.group({
     usernameOrEmail: [
@@ -36,7 +36,8 @@ export class LoginComponent {
   constructor(private authService: AuthService,
               private fb: FormBuilder,
               private router: Router,
-              private sessionService: SessionService) {
+              private sessionService: SessionService,
+              private matSnackBar: MatSnackBar) {
   }
 
   public submit(): void {
@@ -46,7 +47,11 @@ export class LoginComponent {
         this.sessionService.logIn(response);
         this.router.navigate(['/posts']);
       },
-      error: error => this.onError = true,
+      error: error => this.matSnackBar.open('Une erreur s\'est produite ', 'Fermer', { duration: 3000 }),
     });
+  }
+
+  public back() {
+    window.history.back();
   }
 }

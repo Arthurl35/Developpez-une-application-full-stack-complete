@@ -1,24 +1,19 @@
-<div class="login" fxLayout="row" fxLayoutAlign="center center">
-  <mat-card>
-    <mat-card-header fxLayoutAlign="center center">
-      <mat-card-title>Login</mat-card-title>
-    </mat-card-header>
-    <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
-      <mat-card-content fxLayout="column">
-        <mat-form-field fxFlex>
-          <input matInput placeholder="E-mail ou nom d'utilisateur " formControlName="usernameOrEmail">
-        </mat-form-field>
-        <mat-form-field fxFlex>
-          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password"
-                 formControlName="password">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-        </mat-form-field>
-      </mat-card-content>
-      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Submit</button>
-      <p *ngIf="onError" class="error">An error occurred</p>
+<button class="!ml-2" mat-icon-button (click)="back()">
+  <mat-icon>arrow_back</mat-icon>
+</button>
+<mat-card class="mx-auto my-12 no-shadow">
+  <div class="mx-auto w-64 h-44"><img src="../../../assets/logo_p6.png" alt="logo"></div>
+  <mat-card-title>
+    <h1 class="text-center">Connexion</h1>
+  </mat-card-title>
+  <mat-card-content class="w-5/6 mx-auto">
+    <form class="login-form" [formGroup]="form" (ngSubmit)="submit()" class="w-3/6 mx-auto">
+      <label type="email">E-mail ou nom d’utilisateur</label>
+      <input class="border-custom rounded p-2 mb-2 w-full" id="email" placeholder="Email" formControlName="usernameOrEmail">
+      <label type="mdp">Mot de passe</label>
+      <input class="border-custom rounded p-2 mb-2 w-full" id="mdp" [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password">
+
+      <button mat-raised-button color="primary" class="inline-block mt-4 mx-auto" type="submit" [disabled]="form.invalid">Se connecter</button>
     </form>
-  </mat-card>
-</div>
+  </mat-card-content>
+</mat-card>

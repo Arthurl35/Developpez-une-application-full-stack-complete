@@ -22,6 +22,6 @@ export class PostApiService {
   }
 
   public addPost(post: PostGet): Observable<PostGet> {
-    return this.httpClient.post<any>(this.pathService, post, { responseType: 'text' as 'json' });
+    return this.httpClient.post<any>(this.pathService, post);
   }
 }

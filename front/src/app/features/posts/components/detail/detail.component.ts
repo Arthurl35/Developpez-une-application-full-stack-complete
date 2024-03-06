@@ -53,10 +53,10 @@ export class DetailComponent implements OnInit {
         // Mettre à jour les données du post après avoir ajouté un commentaire
         this.fetchPost();
         this.commentForm.reset();
-        this.snackBar.open('Comment added successfully', 'Close', { duration: 3000 });
+        this.snackBar.open('Commentaire ajouté avec succès', 'Fermer', { duration: 3000 });
       },
       (error) => {
-        this.snackBar.open('Error adding comment', 'Close', { duration: 3000 });
+        this.snackBar.open('Erreur lors de l\'ajout du commentaire', 'Fermer', { duration: 3000 });
       }
     );
   }

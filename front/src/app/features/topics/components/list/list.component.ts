@@ -14,7 +14,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 })
 export class ListComponent implements OnInit {
 
-  public topics$: Observable<Topic[]> = this.topicsApiService.findAll();
+  public topics$: Observable<Topic[]> = this.topicsApiService.getUnsubscribedTopics();
 
   constructor(
     private sessionService: SessionService,
@@ -34,17 +34,17 @@ export class ListComponent implements OnInit {
   subscribe(topicId: number) {
     this.subscriptionsApiService.subscribeCurrentUserToTopic(topicId.toString()).subscribe(
       () => {
-        this.matSnackBar.open('Successfully subscribed to topic', 'Close', { duration: 3000 });
+        this.matSnackBar.open('Abonnement au sujet réussi', 'Fermer', { duration: 3000 });
         // Rafraîchir les données des sujets après la souscription
         this.refreshTopics();
       },
       (error) => {
-        this.matSnackBar.open('Error subscribing to topic', 'Close', { duration: 3000 });
+        this.matSnackBar.open('Erreur lors de l\'abonnement au sujet', 'Fermer', { duration: 3000 });
       }
     );
   }
 
   private refreshTopics(): void {
-    this.topics$ = this.topicsApiService.findAll();
+    this.topics$ = this.topicsApiService.getUnsubscribedTopics();
   }
 }

@@ -14,7 +14,7 @@ import {TopicsApiService} from "../../../topics/services/topics-api.service";
 export class FormComponent implements OnInit {
 
   public postForm: FormGroup | undefined;
-  public topics$ = this.topicApiService.findAll();
+  public topics$ = this.topicApiService.getSubscribedTopics();
 
   constructor(
     private fb: FormBuilder,
@@ -61,7 +61,7 @@ export class FormComponent implements OnInit {
 
 
   private exitPage(message: string): void {
-    this.matSnackBar.open(message, 'Close', { duration: 3000 });
+    this.matSnackBar.open("Article ajouté", 'Fermer', { duration: 3000 });
     this.router.navigate(['posts']);
   }
 }
