@@ -33,7 +33,7 @@ export class DetailComponent implements OnInit {
   }
 
   public back(): void {
-    this.router.navigate(['/post']);
+    this.router.navigate(['/posts']);
   }
 
   private fetchPost(): void {

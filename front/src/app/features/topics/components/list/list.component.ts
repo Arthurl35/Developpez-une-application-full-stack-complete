@@ -4,7 +4,7 @@ import { SessionInformation } from '../../../../interfaces/sessionInformation.in
 import { SessionService } from '../../../../services/session.service';
 import { TopicsApiService } from "../../services/topics-api.service";
 import { Topic } from "../../interfaces/topic.interface";
-import { SubscriptionsApiService } from "../../../subscription/services/subscriptions-api.service";
+import { SubscriptionsApiService } from "../../subscriptions-api.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({

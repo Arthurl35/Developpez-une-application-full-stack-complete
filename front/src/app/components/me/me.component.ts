@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User } from '../../interfaces/user.interface';
-import {userUpdate} from "../../interfaces/userUpdate.interface";
+import { userUpdate } from "../../interfaces/userUpdate.interface";
 import { SessionService } from '../../services/session.service';
 import { UserService } from '../../services/user.service';
 import { SessionInformation } from "../../interfaces/sessionInformation.interface";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, BehaviorSubject } from "rxjs";
+import { Observable } from "rxjs";
 import { Topic } from "../../features/topics/interfaces/topic.interface";
-import { SubscriptionsApiService } from "../../features/subscription/services/subscriptions-api.service";
+import { SubscriptionsApiService } from "../../features/topics/subscriptions-api.service";
+import { TopicsApiService } from "../../features/topics/services/topics-api.service";
 
 
 @Component({
@@ -20,21 +21,21 @@ export class MeComponent implements OnInit {
 
   public user: User | undefined;
   public form: FormGroup;
-  public topics$: Observable<Topic[]>; // Change to BehaviorSubject
-  private topicsSubject: BehaviorSubject<Topic[]> = new BehaviorSubject<Topic[]>([]);
+  public topics$: Observable<Topic[]>;
 
   constructor(private router: Router,
               private sessionService: SessionService,
-              private subscriptionsApiService: SubscriptionsApiService,
+              private topicsApiService: TopicsApiService,
               private matSnackBar: MatSnackBar,
               private userService: UserService,
-              private fb: FormBuilder) {
-              this.form = this.fb.group({
-                email: ['', [Validators.required, Validators.email]],
-                username: ['', [Validators.required]],
-              });
+              private fb: FormBuilder,
+              private subscriptionsApiService: SubscriptionsApiService) {
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required]],
+    });
 
-    this.topics$ = this.topicsSubject.asObservable();
+    this.topics$ = new Observable<Topic[]>(); // Initialiser topics$ avec un Observable vide
   }
 
   public ngOnInit(): void {
@@ -43,20 +44,21 @@ export class MeComponent implements OnInit {
       this.userService.getById(sessionUser.id.toString()).subscribe(user => {
         this.user = user;
         this.form.patchValue(user);
-        this.loadTopics();
+        this.loadTopics(); // Appeler loadTopics après avoir récupéré l'utilisateur
       });
     }
   }
 
   private loadTopics(): void {
-    this.subscriptionsApiService.findTopicsByUser().subscribe(topics => {
-      this.topicsSubject.next(topics);
+    this.topicsApiService.getSubscribedTopics().subscribe(topics => {
+      this.topics$ = new Observable<Topic[]>(observer => {
+        observer.next(topics); // Émettre les topics dans l'Observable
+      });
     });
   }
 
   public getCurrentUser(): SessionInformation | undefined {
-    const sessionUser = this.sessionService.sessionInformation;
-    return sessionUser;
+    return this.sessionService.sessionInformation;
   }
 
   public submit(): void {

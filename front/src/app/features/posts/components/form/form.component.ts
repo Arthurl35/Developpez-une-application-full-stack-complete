@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import {PostApiService} from "../../services/posts-api.service";
 import {PostGet} from "../../interfaces/postGet.interface";
 import {TopicsApiService} from "../../../topics/services/topics-api.service";
+import {Observable} from "rxjs";
+import {Topic} from "../../../topics/interfaces/topic.interface";
 
 @Component({
   selector: 'app-form',
@@ -14,13 +16,13 @@ import {TopicsApiService} from "../../../topics/services/topics-api.service";
 export class FormComponent implements OnInit {
 
   public postForm: FormGroup | undefined;
-  public topics$ = this.topicApiService.getSubscribedTopics();
+  public topics$: Observable<Topic[]> = this.topicsApiService.getSubscribedTopics();
 
   constructor(
     private fb: FormBuilder,
     private matSnackBar: MatSnackBar,
     private postApiService: PostApiService,
-    private topicApiService: TopicsApiService,
+    private topicsApiService: TopicsApiService,
     private router: Router
   ) {
   }
@@ -58,6 +60,7 @@ export class FormComponent implements OnInit {
       ],
     });
   }
+
 
 
   private exitPage(message: string): void {
