@@ -1,25 +1,47 @@
-# P6-Full-Stack-reseau-dev
+# Projet Monde de Dév
+This project is a social network for developers. The aim is to share articles related to topics in the world of software development.
+
+## Features
+* (User account) login / logout / create / edit / view
+* (Articles) View by theme subscribed / created / filtered / comments
+* (Themes) Subscribe / unsubscribe
+* (Others) Responsive design
+
+## Start the project
+
+Git clone:
+
+> https://github.com/OpenClassrooms-Student-Center/Developpez-une-application-full-stack-complete.git
+
+Database:
+
+Install MySQL on your machine.
+Run the SQL script to create the database schema. The script is available at ressources/data.sql.
 
 ## Front
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+The application's front-end is developed in Angular.
 
-Don't forget to install your node_modules before starting (`npm install`).
+Go to front folder:
 
-### Development server
+> cd /front
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Install dependencies:
 
-### Build
+> npm install
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Launch Front-end:
 
-### Where to start
+> npm run start;
 
-As you may have seen if you already started the app, a simple home page containing a logo, a title and a button is available. If you take a look at its code (in the `home.component.html`) you will see that an external UI library is already configured in the project.
+## Back
 
-This library is `@angular/material`, it's one of the most famous in the angular ecosystem. As you can see on their docs (https://material.angular.io/), it contains a lot of highly customizable components that will help you design your interfaces quickly.
+The application's back-end is developed in Java Spring.
 
-Note: I recommend to use material however it's not mandatory, if you prefer you can get ride of it.
+Go to back folder:
 
-Good luck!
+> cd /back
+
+Launch Back-end:
+
+> mvn spring-boot:run;
