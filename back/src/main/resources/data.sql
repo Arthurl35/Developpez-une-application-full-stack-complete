@@ -7,15 +7,6 @@ CREATE TABLE User (
                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Subscription (
-                              id INT AUTO_INCREMENT PRIMARY KEY,
-                              user_id INT,
-                              topic_id INT,
-                              is_subscribe BOOLEAN NOT NULL DEFAULT TRUE,
-                              FOREIGN KEY (user_id) REFERENCES User(id),
-                              FOREIGN KEY (topic_id) REFERENCES Topic(id)
-);
-
 CREATE TABLE Topic (
                        id INT AUTO_INCREMENT PRIMARY KEY,
                        title VARCHAR(255) NOT NULL,
@@ -36,8 +27,17 @@ CREATE TABLE Post (
 CREATE TABLE Comment (
                          id INT AUTO_INCREMENT PRIMARY KEY,
                          description TEXT,
+                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                          post_id INT,
                          user_id INT,
                          FOREIGN KEY (post_id) REFERENCES Post(id),
                          FOREIGN KEY (user_id) REFERENCES User(id)
+);
+
+CREATE TABLE Subscription (
+                              id INT AUTO_INCREMENT PRIMARY KEY,
+                              user_id INT,
+                              topic_id INT,
+                              FOREIGN KEY (user_id) REFERENCES User(id),
+                              FOREIGN KEY (topic_id) REFERENCES Topic(id)
 );

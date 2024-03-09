@@ -62,18 +62,14 @@ public class AuthController {
             return ResponseEntity
                     .badRequest()
                     .body("Error: Email is already taken!");
-
-                    //.body(new MessageResponse("Error: Email is already taken!"));
         }
 
-        // Vérifier la validité du mot de passe
         if (!PasswordValidator.isValid(signUpRequest.getPassword())) {
             return ResponseEntity
                     .badRequest()
                     .body("Error: Password is invalid!");
         }
 
-        // Create new user's account
         User user = new User(signUpRequest.getEmail(),
                 signUpRequest.getUsername(),
                 passwordEncoder.encode(signUpRequest.getPassword()),
@@ -82,6 +78,5 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok("User registered successfully");
-                //new MessageResponse("User registered successfully!"));
     }
 }

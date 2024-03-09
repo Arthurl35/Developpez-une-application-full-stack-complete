@@ -3,10 +3,7 @@ package com.openclassrooms.mddapi.services;
 import com.openclassrooms.mddapi.dto.CommentDto;
 import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.dto.PostGetDto;
-import com.openclassrooms.mddapi.models.Post;
-import com.openclassrooms.mddapi.models.Subscription;
-import com.openclassrooms.mddapi.models.Topic;
-import com.openclassrooms.mddapi.models.User;
+import com.openclassrooms.mddapi.models.*;
 import com.openclassrooms.mddapi.repository.PostRepository;
 import com.openclassrooms.mddapi.repository.SubscriptionRepository;
 import com.openclassrooms.mddapi.repository.TopicRepository;
@@ -17,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,44 +37,69 @@ public class PostService {
 
     public Post addPost(PostDto postDto) throws Exception {
         User currentUser = securityUtils.getCurrentUser();
+
         Topic topic = topicRepository.findById(postDto.getTopicId())
                 .orElseThrow(() -> new RuntimeException("Topic not found with id: " + postDto.getTopicId()));
 
-        List<Topic> subscribedTopics = currentUser.getSubscriptions().stream()
-                .map(Subscription::getTopic)
-                .collect(Collectors.toList());
-
-        if (!subscribedTopics.contains(topic)) {
-            throw new Exception("You are not subscribed to this topic.");
-        }
-
-        Post post = modelMapper.map(postDto, Post.class);
+        Post post = new Post();
+        post.setTitle(postDto.getTitle());
+        post.setDescription(postDto.getDescription());
         post.setUser(currentUser);
+        post.setTopic(topic);
         post.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         return postRepository.save(post);
     }
 
-    public List<Post> getAllPosts() {
+    public List<PostDto> getAllPosts() {
         List<Topic> subscribedTopics = getTopics();
-        return postRepository.findByTopicIn(subscribedTopics);
+        List<Post> posts = postRepository.findByTopicIn(subscribedTopics);
+        return posts.stream()
+                .map(post -> {
+                    PostDto postDto = new PostDto();
+                    postDto.setId(post.getId());
+                    postDto.setTitle(post.getTitle());
+                    postDto.setDescription(post.getDescription());
+                    postDto.setCreatedAt(post.getCreatedAt());
+                    postDto.setAuthorEmail(post.getUser().getEmail());
+                    postDto.setTopicId(post.getTopic().getId());
+                    return postDto;
+                })
+                .collect(Collectors.toList());
     }
 
-    public Post getPostById(Long postId){
-        List<Topic> subscribedTopics = getTopics();
-
+    public PostGetDto getPostById(Long postId){
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
 
-        if (!subscribedTopics.contains(post.getTopic())) {
-            throw new RuntimeException("You are not subscribed to the topic of this post.");
-        }
+        PostGetDto postGetDto = new PostGetDto();
+        postGetDto.setId(post.getId());
+        postGetDto.setTitle(post.getTitle());
+        postGetDto.setDescription(post.getDescription());
+        postGetDto.setCreatedAt(post.getCreatedAt());
+        postGetDto.setAuthorEmail(post.getUser().getEmail());
+        postGetDto.setTopicId(post.getTopic().getId());
+        postGetDto.setTopicTitle(post.getTopic().getTitle());
 
-        return post;
+        List<CommentDto> commentDtoList = post.getComments().stream()
+                .map(comment -> {
+                    CommentDto commentItemDto = new CommentDto();
+                    commentItemDto.setId(comment.getId());
+                    commentItemDto.setDescription(comment.getDescription());
+                    commentItemDto.setCreatedAt(comment.getCreatedAt());
+                    commentItemDto.setAuthorEmail(comment.getUser().getEmail());
+                    commentItemDto.setPostId(comment.getPost().getId());
+                    return commentItemDto;
+                })
+                .collect(Collectors.toList());
+        postGetDto.setComments(commentDtoList);
+
+        return postGetDto;
     }
 
     private List<Topic> getTopics() {
         User currentUser = securityUtils.getCurrentUser();
+
         List<Topic> subscribedTopics = currentUser.getSubscriptions().stream()
                 .map(Subscription::getTopic)
                 .collect(Collectors.toList());

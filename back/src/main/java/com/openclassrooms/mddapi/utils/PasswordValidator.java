@@ -3,38 +3,27 @@ import java.util.regex.Pattern;
 
 public class PasswordValidator {
 
-    private static final int MIN_LENGTH = 8;
-
     public static boolean isValid(String password) {
-        if (password == null || password.length() < MIN_LENGTH) {
+        if (password == null || password.length() < 8) {
             return false;
         }
 
-        // Vérifier la présence d'au moins un chiffre
-        if (!containsDigit(password)) {
-            return false;
-        }
-
-        // Vérifier la présence d'au moins une lettre minuscule
+        //Une min
         if (!containsLowerCase(password)) {
             return false;
         }
 
-        // Vérifier la présence d'au moins une lettre majuscule
+        // Une maj
         if (!containsUpperCase(password)) {
             return false;
         }
 
-        // Vérifier la présence d'au moins un caractère spécial
+        // Un caractère spécial
         if (!containsSpecialChar(password)) {
             return false;
         }
 
         return true;
-    }
-
-    private static boolean containsDigit(String password) {
-        return password.matches(".*\\d.*");
     }
 
     private static boolean containsLowerCase(String password) {

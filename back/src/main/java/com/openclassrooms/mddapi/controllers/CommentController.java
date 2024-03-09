@@ -15,32 +15,18 @@ import java.util.Map;
 @RequestMapping("/api/")
 public class CommentController {
     private CommentService commentService;
-    private ModelMapper modelMapper;
 
     @Autowired
-    public CommentController(CommentService commentService, ModelMapper modelMapper) {
+    public CommentController(CommentService commentService) {
         this.commentService = commentService;
-        this.modelMapper = modelMapper;
     }
-
-//    @PostMapping("posts/{postId}")
-//    public ResponseEntity<?> addCommentToPost(@PathVariable Long postId, @RequestBody CommentDto commentDTO) {
-//        try {
-//            commentService.addComment(commentDTO, postId);
-//            return ResponseEntity.ok("Comment has been successfully added.");
-//        } catch (RuntimeException e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//        }
-//    }
 @PostMapping("posts/{postId}")
 public ResponseEntity<?> addCommentToPost(@PathVariable Long postId, @RequestBody CommentDto commentDTO) {
     try {
         commentService.addComment(commentDTO, postId);
-        return ResponseEntity.ok().body(Map.of("message", "Comment has been successfully added."));
+        return ResponseEntity.ok().build();
     } catch (RuntimeException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 }
-
-
 }

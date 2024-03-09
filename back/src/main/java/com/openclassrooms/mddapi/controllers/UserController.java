@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -34,7 +36,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
-            User user = this.userService.findById(Long.valueOf(id));
+            User user = this.userService.findById(id);
 
             if (user == null) {
                 return ResponseEntity.notFound().build();
@@ -50,29 +52,19 @@ public class UserController {
     public ResponseEntity<?> update(@RequestBody UserUpdateDto userUpdateDto) {
         try {
             User currentUser = securityUtils.getCurrentUser();
-            User user = this.userService.findById(Long.valueOf(currentUser.getId()));
+            User user = this.userService.findById(currentUser.getId());
 
             if (user == null) {
                 return ResponseEntity.notFound().build();
             }
 
-            if (userUpdateDto.getUsername() != null && !userUpdateDto.getUsername().isEmpty()) {
-                user.setUsername(userUpdateDto.getUsername());
-            }
-
-            if (userUpdateDto.getEmail() != null && !userUpdateDto.getEmail().isEmpty()) {
-                user.setEmail(userUpdateDto.getEmail());
-            }
-
-            if (userUpdateDto.getPassword() != null && !userUpdateDto.getPassword().isEmpty()) {
-                user.setPassword(passwordEncoder.encode(userUpdateDto.getPassword()));
-            }
-
+            user.setEmail(userUpdateDto.getEmail());
+            user.setUsername(userUpdateDto.getUsername());
             user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
-            user = this.userService.save(user);
+            this.userService.save(user);
 
-            return ResponseEntity.ok().body(modelMapper.map(user, UserUpdateDto.class));
+            return ResponseEntity.ok().build();
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().build();
         }

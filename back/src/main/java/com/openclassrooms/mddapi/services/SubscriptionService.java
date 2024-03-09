@@ -4,6 +4,7 @@ import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.models.Subscription;
 import com.openclassrooms.mddapi.repository.SubscriptionRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +13,22 @@ import java.util.stream.Collectors;
 
 @Service
 public class SubscriptionService {
+
     private final SubscriptionRepository subscriptionRepository;
+    private final TopicRepository topicRepository;
     private final SecurityUtils securityUtils;
 
     private final TopicService topicService;
 
+
     public SubscriptionService(SubscriptionRepository subscriptionRepository,
                                                 SecurityUtils securityUtils,
-                                                TopicService topicService) {
+                                                TopicService topicService,
+                                                TopicRepository topicRepository) {
         this.subscriptionRepository = subscriptionRepository;
         this.securityUtils = securityUtils;
         this.topicService = topicService;
+        this.topicRepository = topicRepository;
     }
 
     public void subscribeCurrentUserToTopic(Topic topic) throws Exception {
@@ -47,6 +53,19 @@ public class SubscriptionService {
         }
         subscriptionRepository.delete(subscription);
     }
+
+    public List<Topic> getSubscribedTopics() {
+        return getSubscribedTopicsByCurrentUser();
+    }
+
+    public List<Topic> getUnsubscribedTopics() {
+        List<Topic> subscribedTopics = getSubscribedTopicsByCurrentUser();
+        List<Topic> allTopics = topicRepository.findAll();
+        return allTopics.stream()
+                .filter(topic -> !subscribedTopics.contains(topic))
+                .collect(Collectors.toList());
+    }
+
 
     public List<Topic> getSubscribedTopicsByCurrentUser() {
         User currentUser = securityUtils.getCurrentUser();

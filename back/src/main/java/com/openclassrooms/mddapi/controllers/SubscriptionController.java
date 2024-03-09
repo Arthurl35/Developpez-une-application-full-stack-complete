@@ -62,13 +62,4 @@ public class SubscriptionController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
-
-    @GetMapping("/subscribed")
-    public ResponseEntity<?> getSubscribedTopicsByCurrentUser() {
-        List<Topic> topics = subscriptionService.getSubscribedTopicsByCurrentUser();
-        List<TopicDto> topicsDto = topics.stream()
-                .map(topic -> modelMapper.map(topic, TopicDto.class))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok().body(topicsDto);
-    }
 }

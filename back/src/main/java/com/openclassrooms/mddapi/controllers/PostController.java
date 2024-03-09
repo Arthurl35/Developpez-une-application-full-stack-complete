@@ -30,8 +30,7 @@ public class PostController {
     public ResponseEntity<?> addPost(@RequestBody PostDto postDTO) {
         try {
             postService.addPost(postDTO);
-            return ResponseEntity.ok().body(Map.of("message", "Le post a été créé avec succès."));
-
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -39,35 +38,19 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<?> getAllPosts() {
-        List<PostDto> posts = postService.getAllPosts().stream()
-                .sorted(Comparator.comparing(Post::getCreatedAt).reversed())
-                .map(post -> {
-                    PostDto postDto = modelMapper.map(post, PostDto.class);
-                    postDto.setAuthorEmail(post.getUser().getEmail()); // set authorEmail
-                    return postDto;
-                })
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(posts);
+        try {
+            List<PostDto> postsDto = postService.getAllPosts();
+            return ResponseEntity.ok(postsDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @GetMapping("/{postId}")
     public ResponseEntity<?> getPost(@PathVariable Long postId) {
         try {
-            Post post = postService.getPostById(postId);
-            PostGetDto postDto = modelMapper.map(post, PostGetDto.class);
-            postDto.setCreatedAt(post.getCreatedAt());
-            postDto.setAuthorEmail(post.getUser().getEmail());
-            postDto.setTopicTitle(post.getTopic().getTitle());
-            List<CommentDto> commentDtoList = post.getComments().stream()
-                    .map(comment -> {
-                        CommentDto commentDtoItem = modelMapper.map(comment, CommentDto.class);
-                        commentDtoItem.setAuthorEmail(comment.getUser().getEmail());
-                        return commentDtoItem;
-                    })
-                    .collect(Collectors.toList());
-            postDto.setComments(commentDtoList);
-            return ResponseEntity.ok(postDto);
-
+            PostGetDto postGetDto = postService.getPostById(postId);
+            return ResponseEntity.ok(postGetDto);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

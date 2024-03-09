@@ -55,29 +55,21 @@ public class TopicController{
         }
     }
 
-    @GetMapping()
-    public ResponseEntity<?> findAll() {
-        List<Topic> subscribedTopics = subscriptionService.getSubscribedTopicsByCurrentUser();
-
-        List<Topic> topics = this.topicService.findAll().stream()
-                .filter(topic -> !subscribedTopics.contains(topic))
-                .collect(Collectors.toList());
-
-        List<TopicDto> topicsDto = topics.stream()
+    @GetMapping("/subscribed")
+    public ResponseEntity<?> getSubscribedTopics() {
+        List<Topic> subscribedTopics = subscriptionService.getSubscribedTopics();
+        List<TopicDto> topicsDto = subscribedTopics.stream()
                 .map(topic -> modelMapper.map(topic, TopicDto.class))
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok().body(topicsDto);
     }
 
-//    @GetMapping()
-//    public ResponseEntity<?> findAll() {
-//        List<Topic> topics = this.topicService.findAll();
-//
-//        List<TopicDto> topicsDto = topics.stream()
-//                .map(topic -> modelMapper.map(topic, TopicDto.class))
-//                .collect(Collectors.toList());
-//
-//        return ResponseEntity.ok().body(topicsDto);
-//    }
+    @GetMapping("/unsubscribed")
+    public ResponseEntity<?> getUnsubscribedTopics() {
+        List<Topic> unsubscribedTopics = subscriptionService.getUnsubscribedTopics();
+        List<TopicDto> topicsDto = unsubscribedTopics.stream()
+                .map(topic -> modelMapper.map(topic, TopicDto.class))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(topicsDto);
+    }
 }
