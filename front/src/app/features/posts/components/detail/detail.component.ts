@@ -11,7 +11,7 @@ import { CommentApiService } from "../../services/comments-api.service";
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class PostDetailComponent implements OnInit {
   public post: PostGet | undefined;
   public commentForm: FormGroup;
 

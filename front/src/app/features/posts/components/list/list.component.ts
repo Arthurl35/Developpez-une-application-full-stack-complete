@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { SessionInformation } from '../../../../interfaces/sessionInformation.interface';
-import { SessionService } from '../../../../services/session.service';
 import { PostApiService } from "../../services/posts-api.service";
 import { PostGet } from "../../interfaces/postGet.interface";
 
@@ -10,7 +8,7 @@ import { PostGet } from "../../interfaces/postGet.interface";
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent {
+export class PostListComponent {
 
   public posts$: Observable<PostGet[]>;
   public isDescendingOrder: boolean = false;

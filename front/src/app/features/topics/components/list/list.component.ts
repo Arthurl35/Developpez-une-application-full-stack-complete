@@ -4,7 +4,7 @@ import { SessionInformation } from '../../../../interfaces/sessionInformation.in
 import { SessionService } from '../../../../services/session.service';
 import { TopicsApiService } from "../../services/topics-api.service";
 import { Topic } from "../../interfaces/topic.interface";
-import { SubscriptionsApiService } from "../../subscriptions-api.service";
+import { SubscriptionsApiService } from "../../services/subscriptions-api.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
@@ -12,7 +12,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class TopicListComponent implements OnInit {
 
   public topics$: Observable<Topic[]> = this.topicsApiService.getUnsubscribedTopics();
 

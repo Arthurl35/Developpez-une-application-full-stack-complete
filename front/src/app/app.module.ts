@@ -19,6 +19,12 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {HeaderComponent} from "./components/header/header.component";
 import {HomeComponent} from "./components/home/home.component";
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import {LoginComponent} from "./features/auth/components/login/login.component";
+import {RegisterComponent} from "./features/auth/components/register/register.component";
+import { PostDetailComponent} from "./features/posts/components/detail/detail.component";
+import { PostFormComponent} from "./features/posts/components/form/form.component";
+import { PostListComponent} from "./features/posts/components/list/list.component";
+import {TopicListComponent} from "./features/topics/components/list/list.component";
 
 const materialModule = [
   MatButtonModule,
@@ -32,9 +38,15 @@ const materialModule = [
   declarations: [
     AppComponent,
     HeaderComponent,
+    RegisterComponent,
+    PostDetailComponent,
+    PostFormComponent,
+    PostListComponent,
+    TopicListComponent,
     HomeComponent,
     MeComponent,
     NotFoundComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

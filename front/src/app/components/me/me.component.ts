@@ -9,7 +9,7 @@ import { SessionInformation } from "../../interfaces/sessionInformation.interfac
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from "rxjs";
 import { Topic } from "../../features/topics/interfaces/topic.interface";
-import { SubscriptionsApiService } from "../../features/topics/subscriptions-api.service";
+import { SubscriptionsApiService } from "../../features/topics/services/subscriptions-api.service";
 import { TopicsApiService } from "../../features/topics/services/topics-api.service";
 
 

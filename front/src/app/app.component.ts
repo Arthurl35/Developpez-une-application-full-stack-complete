@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from './features/auth/services/auth.service';
-import { SessionInformation } from './interfaces/sessionInformation.interface';
-import { SessionService } from './services/session.service';
+import { Router } from '@angular/router';
 import {NavigationEnd} from "@angular/router";
 
 @Component({
@@ -12,12 +8,10 @@ import {NavigationEnd} from "@angular/router";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  isLoginOrRegisterRoute: boolean | undefined;
+  public isLoginOrRegisterRoute: boolean | undefined;
 
   constructor(
-    private router: Router,
-    private sessionService: SessionService,
-    private activatedRoute: ActivatedRoute) {
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -27,5 +21,4 @@ export class AppComponent implements OnInit {
       }
     });
   }
-
 }

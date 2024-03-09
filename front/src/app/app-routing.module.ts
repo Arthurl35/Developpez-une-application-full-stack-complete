@@ -7,32 +7,51 @@ import {LoginComponent} from "./features/auth/components/login/login.component";
 import {RegisterComponent} from "./features/auth/components/register/register.component";
 import {NotFoundComponent} from "./components/not-found/not-found.component";
 import {MeComponent} from "./components/me/me.component";
+import {PostDetailComponent} from "./features/posts/components/detail/detail.component";
+import {PostFormComponent} from "./features/posts/components/form/form.component";
+import {PostListComponent} from "./features/posts/components/list/list.component";
+import {TopicListComponent} from "./features/topics/components/list/list.component";
 
 const routes: Routes = [
   { path: '',  component: HomeComponent },
-  { path : 'login',
+  {
+    path : 'login',
+    canActivate: [UnauthGuard],
     component: LoginComponent,
-    canActivate: [UnauthGuard],
-    loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)
   },
-  { path: 'register',
-    component: RegisterComponent,
+  {
+    path: 'register',
     canActivate: [UnauthGuard],
-    loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule) },
+    component: RegisterComponent,
+  },
   {
     path: 'posts',
+    title: 'Articles',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./features/posts/posts.module').then(m => m.PostsModule)
+    component: PostListComponent
+  },
+  {
+    path: 'posts/create',
+    title: 'Article - créé',
+    canActivate: [AuthGuard],
+    component: PostFormComponent
+  },
+  {
+    path: 'posts/:id',
+    title: 'Article - detail',
+    canActivate: [AuthGuard],
+    component: PostDetailComponent
   },
   {
     path: 'topics',
+    title: 'Thèmes',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./features/topics/topics.module').then(m => m.TopicsModule)
+    component: TopicListComponent
   },
   {
-   path: 'me',
-   canActivate: [AuthGuard],
-   component: MeComponent
+    path: 'me',
+    canActivate: [AuthGuard],
+    component: MeComponent
   },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '404' }

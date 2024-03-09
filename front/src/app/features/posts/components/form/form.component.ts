@@ -13,7 +13,7 @@ import {Topic} from "../../../topics/interfaces/topic.interface";
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnInit {
+export class PostFormComponent implements OnInit {
 
   public postForm: FormGroup | undefined;
   public topics$: Observable<Topic[]> = this.topicsApiService.getSubscribedTopics();
