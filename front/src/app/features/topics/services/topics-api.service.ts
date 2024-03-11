@@ -20,8 +20,4 @@ export class TopicsApiService {
   public getSubscribedTopics(): Observable<Topic[]> {
     return this.httpClient.get<Topic[]>(`${this.pathService}/subscribed`);
   }
-
-  public findById(id: string): Observable<Topic> {
-    return this.httpClient.get<Topic>(`${this.pathService}/${id}`);
-  }
 }

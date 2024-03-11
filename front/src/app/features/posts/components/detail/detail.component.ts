@@ -13,7 +13,14 @@ import { CommentApiService } from "../../services/comments-api.service";
 })
 export class PostDetailComponent implements OnInit {
   public post: PostGet | undefined;
-  public commentForm: FormGroup;
+
+  public commentForm = this.fb.group({
+    description: [
+      '',
+    ]
+  });
+
+
 
   constructor(
     private route: ActivatedRoute,
@@ -23,9 +30,6 @@ export class PostDetailComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    this.commentForm = this.fb.group({
-      description: ['']
-    });
   }
 
   public ngOnInit(): void {
@@ -38,7 +42,6 @@ export class PostDetailComponent implements OnInit {
 
   private fetchPost(): void {
     const postId = this.route.snapshot.params['id'];
-    console.log(postId);
     this.postApiService.getPost(postId).subscribe(
       (post: PostGet) => {
         this.post = post;
@@ -50,7 +53,6 @@ export class PostDetailComponent implements OnInit {
     const comment = this.commentForm.value;
     this.commentApiService.addCommentToPost(postId, comment).subscribe(
       () => {
-        // Mettre à jour les données du post après avoir ajouté un commentaire
         this.fetchPost();
         this.commentForm.reset();
         this.snackBar.open('Commentaire ajouté avec succès', 'Fermer', { duration: 3000 });

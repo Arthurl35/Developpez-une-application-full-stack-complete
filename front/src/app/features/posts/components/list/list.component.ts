@@ -20,14 +20,15 @@ export class PostListComponent {
   }
 
   public sort(): void {
-    this.isDescendingOrder = !this.isDescendingOrder; // Inverse l'ordre à chaque clic
+    this.isDescendingOrder = !this.isDescendingOrder;
+
     this.posts$ = this.posts$.pipe(
       map((posts) =>
         posts.sort((a, b) => {
           if (this.isDescendingOrder) {
-            return a.createdAt < b.createdAt ? 1 : -1; // Tri descendant
+            return a.createdAt < b.createdAt ? 1 : -1; // Tri desc
           } else {
-            return a.createdAt > b.createdAt ? 1 : -1; // Tri ascendant
+            return a.createdAt > b.createdAt ? 1 : -1; // Tri asc
           }
         })
       )

@@ -20,8 +20,23 @@ import { TopicsApiService } from "../../features/topics/services/topics-api.serv
 export class MeComponent implements OnInit {
 
   public user: User | undefined;
-  public form: FormGroup;
-  public topics$: Observable<Topic[]>;
+  public topics$: Observable<Topic[]> | undefined;
+
+  public form = this.fb.group({
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email
+      ]
+    ],
+    username: [
+      '',
+      [
+        Validators.required,
+      ]
+    ]
+  });
 
   constructor(private router: Router,
               private sessionService: SessionService,
@@ -30,12 +45,6 @@ export class MeComponent implements OnInit {
               private userService: UserService,
               private fb: FormBuilder,
               private subscriptionsApiService: SubscriptionsApiService) {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      username: ['', [Validators.required]],
-    });
-
-    this.topics$ = new Observable<Topic[]>(); // Initialiser topics$ avec un Observable vide
   }
 
   public ngOnInit(): void {
@@ -44,7 +53,7 @@ export class MeComponent implements OnInit {
       this.userService.getById(sessionUser.id.toString()).subscribe(user => {
         this.user = user;
         this.form.patchValue(user);
-        this.loadTopics(); // Appeler loadTopics après avoir récupéré l'utilisateur
+        this.loadTopics();
       });
     }
   }
@@ -52,7 +61,7 @@ export class MeComponent implements OnInit {
   private loadTopics(): void {
     this.topicsApiService.getSubscribedTopics().subscribe(topics => {
       this.topics$ = new Observable<Topic[]>(observer => {
-        observer.next(topics); // Émettre les topics dans l'Observable
+        observer.next(topics);
       });
     });
   }
@@ -64,8 +73,8 @@ export class MeComponent implements OnInit {
   public submit(): void {
     if (this.form.valid) {
       const updatedUser = this.form.value as userUpdate;
-      console.log(updatedUser);
-      this.userService.updateUser(updatedUser).subscribe(response => {
+
+        this.userService.updateUser(updatedUser).subscribe(response => {
         this.matSnackBar.open("Utilisateur modifié", 'Close', { duration: 3000 });
       });
       this.logout();
@@ -82,7 +91,6 @@ export class MeComponent implements OnInit {
       this.matSnackBar.open('Désabonnement réussi', 'Fermer', {
         duration: 3000
       });
-      // Rafraîchir la liste des sujets après le désabonnement réussi
       this.loadTopics();
     }, error => {
       this.matSnackBar.open('Erreur lors du désabonnement', 'Fermer', {

@@ -13,10 +13,31 @@ import {Topic} from "../../../topics/interfaces/topic.interface";
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class PostFormComponent implements OnInit {
+export class PostFormComponent {
 
-  public postForm: FormGroup | undefined;
   public topics$: Observable<Topic[]> = this.topicsApiService.getSubscribedTopics();
+
+  public postForm = this.fb.group({
+    title: [
+      '',
+      [
+        Validators.required,
+      ]
+    ],
+    description: [
+      '',
+      [
+        Validators.required,
+        Validators.max(3000)
+      ]
+    ],
+    topicId: [
+      '',
+      [
+        Validators.required,
+      ]
+    ]
+  });
 
   constructor(
     private fb: FormBuilder,
@@ -27,12 +48,8 @@ export class PostFormComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit(): void {
-      this.initForm();
-  }
-
   public submit(): void {
-    const post = this.postForm?.value as PostGet;
+    const post = this.postForm.value;
 
     this.postApiService
       .addPost(post)
@@ -40,28 +57,6 @@ export class PostFormComponent implements OnInit {
         this.exitPage(response);
       });
   }
-
-  private initForm(post?: PostGet): void {
-    this.postForm = this.fb.group({
-      title: [
-        post ? post.title : ' ',
-        [Validators.required]
-      ],
-      topicId: [
-        post ? post.topicId : ' ',
-        [Validators.required]
-      ],
-      description: [
-        post ? post.description : ' ',
-        [
-          Validators.required,
-          Validators.max(2000)
-        ]
-      ],
-    });
-  }
-
-
 
   private exitPage(message: string): void {
     this.matSnackBar.open("Article ajouté", 'Fermer', { duration: 3000 });

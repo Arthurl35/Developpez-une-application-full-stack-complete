@@ -19,6 +19,6 @@ export class UserService {
   }
 
   public updateUser(updatedUser: userUpdate): Observable<userUpdate> {
-    return this.httpClient.put<userUpdate>(this.pathService, updatedUser,{ responseType: 'text' as 'json' });
+    return this.httpClient.put<userUpdate>(this.pathService, updatedUser);
   }
 }

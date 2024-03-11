@@ -1,0 +1,25 @@
+? Port 4200 is already in use.
+Would you like to use a different port? (Y/n) [46D[46C[2K[1A[2K[G? Port 4200 is already in use.
+Would you like to use a different port? Yes[43D[43C
+
+Initial Chunk Files                                                                                     | Names                         |  Raw Size
+vendor.js                                                                                               | vendor                        |   3.68 MB |
+polyfills.js                                                                                            | polyfills                     | 318.05 kB |
+styles.css, styles.js                                                                                   | styles                        | 304.74 kB |
+main.js                                                                                                 | main                          |  77.49 kB |
+runtime.js                                                                                              | runtime                       |  12.62 kB |
+
+| Initial Total                 |   4.38 MB
+
+Lazy Chunk Files                                                                                        | Names                         |  Raw Size
+src_app_features_posts_posts_module_ts.js                                                               | features-posts-posts-module   | 164.21 kB |
+default-node_modules_angular_common_locales_fr_mjs-node_modules_angular_material_fesm2020_sel-f3b4ee.js | features-posts-posts-module   |  89.99 kB |
+src_app_features_topics_topics_module_ts.js                                                             | features-topics-topics-module |  15.21 kB |
+src_app_features_auth_auth_module_ts.js                                                                 | features-auth-auth-module     |   6.46 kB |
+
+Build at: 2024-03-09T18:40:04.579Z - Hash: d5ee54a79a1a29f0 - Time: 8897ms
+
+** Angular Live Development Server is listening on localhost:51565, open your browser on http://localhost:51565/ **
+
+
+√ Compiled successfully.

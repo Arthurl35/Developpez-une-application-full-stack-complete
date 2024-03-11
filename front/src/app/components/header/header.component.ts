@@ -11,13 +11,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   constructor(private sessionService: SessionService, public router: Router) { }
 
-
-
   public $isLogged(): Observable<boolean> {
     return this.sessionService.$isLogged();
-  }
-
-  public isSmallScreen(): boolean {
-    return window.innerWidth < 640; // Taille de l'écran "sm" en pixels
   }
 }
