@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.services;
 
+import com.openclassrooms.mddapi.dto.TopicDto;
 import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.models.Subscription;
@@ -33,6 +34,7 @@ public class SubscriptionService {
 
     public void subscribeCurrentUserToTopic(Topic topic) throws Exception {
         User currentUser = securityUtils.getCurrentUser();
+
         Subscription existingSubscription = subscriptionRepository.findByUserAndTopic(currentUser, topic);
 
         if (existingSubscription != null) {
@@ -47,22 +49,39 @@ public class SubscriptionService {
 
     public void unsubscribeCurrentUserFromTopic(Topic topic) throws Exception {
         User currentUser = securityUtils.getCurrentUser();
+
         Subscription subscription = subscriptionRepository.findByUserAndTopic(currentUser, topic);
+
         if (subscription == null) {
             throw new Exception("You are not subscribed to this topic.");
         }
         subscriptionRepository.delete(subscription);
     }
 
-    public List<Topic> getSubscribedTopics() {
-        return getSubscribedTopicsByCurrentUser();
+    public List<TopicDto> getSubscribedTopics() {
+        return getSubscribedTopicsByCurrentUser().stream()
+                .map(topic -> {
+                     TopicDto topicDto = new TopicDto();
+                        topicDto.setId(topic.getId());
+                        topicDto.setTitle(topic.getTitle());
+                        topicDto.setDescription(topic.getDescription());
+                     return topicDto;
+                })
+                .collect(Collectors.toList());
     }
 
-    public List<Topic> getUnsubscribedTopics() {
+    public List<TopicDto> getUnsubscribedTopics() {
         List<Topic> subscribedTopics = getSubscribedTopicsByCurrentUser();
         List<Topic> allTopics = topicRepository.findAll();
         return allTopics.stream()
                 .filter(topic -> !subscribedTopics.contains(topic))
+                .map(topic -> {
+                    TopicDto topicDto = new TopicDto();
+                    topicDto.setId(topic.getId());
+                    topicDto.setTitle(topic.getTitle());
+                    topicDto.setDescription(topic.getDescription());
+                    return topicDto;
+                })
                 .collect(Collectors.toList());
     }
 

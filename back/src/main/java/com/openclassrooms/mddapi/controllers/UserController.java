@@ -19,17 +19,14 @@ import java.util.Optional;
 public class UserController {
     private final UserService userService;
     private ModelMapper modelMapper;
-    private final PasswordEncoder passwordEncoder;
     private SecurityUtils securityUtils;
 
 
     public UserController(UserService userService,
                           ModelMapper modelMapper,
-                          PasswordEncoder passwordEncoder,
                           SecurityUtils securityUtils) {
         this.userService = userService;
         this.modelMapper = modelMapper;
-        this.passwordEncoder = passwordEncoder;
         this.securityUtils = securityUtils;
     }
 

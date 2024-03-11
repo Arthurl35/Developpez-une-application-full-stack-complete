@@ -21,21 +21,18 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
     private PostRepository postRepository;
-    private ModelMapper modelMapper;
     private SecurityUtils securityUtils;
     private TopicRepository topicRepository;
     @Autowired
     public PostService(PostRepository postRepository,
-                       ModelMapper modelMapper,
                        SecurityUtils securityUtils,
                        TopicRepository topicRepository) {
         this.postRepository = postRepository;
-        this.modelMapper = modelMapper;
         this.securityUtils = securityUtils;
         this.topicRepository = topicRepository;
     }
 
-    public Post addPost(PostDto postDto) throws Exception {
+    public Post addPost(PostDto postDto) {
         User currentUser = securityUtils.getCurrentUser();
 
         Topic topic = topicRepository.findById(postDto.getTopicId())

@@ -20,27 +20,18 @@ import java.util.stream.Collectors;
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
     private final TopicService topicService;
-    private final ModelMapper modelMapper;
 
     public SubscriptionController(SubscriptionService subscriptionService,
-                                  TopicService topicService,
-                                  ModelMapper modelMapper) {
+                                  TopicService topicService) {
         this.subscriptionService = subscriptionService;
         this.topicService = topicService;
-        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/{topicId}/subscribe")
     public ResponseEntity<?> subscribeCurrentUserToTopic(@PathVariable Long topicId) {
-        Topic topic = topicService.findById(topicId);
-        if (topic == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Topic not found with id: " + topicId);
-        }
-
         try {
-            subscriptionService.subscribeCurrentUserToTopic(topic);
-            return ResponseEntity.ok().body(Map.of("message", "Successfully subscribed to the topic with id: " + topicId));
-
+            subscriptionService.subscribeCurrentUserToTopic(topicService.findById(topicId));
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
@@ -48,16 +39,9 @@ public class SubscriptionController {
 
     @PostMapping("/{topicId}/unsubscribe")
     public ResponseEntity<?> unsubscribeCurrentUserFromTopic(@PathVariable Long topicId) {
-        Topic topic = topicService.findById(topicId);
-        if (topic == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         try {
-            subscriptionService.unsubscribeCurrentUserFromTopic(topic);
-            return ResponseEntity.ok().body(Map.of("message", "Successfully unsubscribed from the topic with id: " + topicId));
-
-
+            subscriptionService.unsubscribeCurrentUserFromTopic(topicService.findById(topicId));
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }

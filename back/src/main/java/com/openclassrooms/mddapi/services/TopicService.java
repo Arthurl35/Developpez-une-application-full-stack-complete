@@ -2,9 +2,12 @@ package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.repository.TopicRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TopicService {
@@ -12,10 +15,6 @@ public class TopicService {
 
     public TopicService(TopicRepository topicRepository) {
         this.topicRepository = topicRepository;
-    }
-
-    public List<Topic> findAll() {
-        return this.topicRepository.findAll();
     }
 
     public Topic findById(Long id) {

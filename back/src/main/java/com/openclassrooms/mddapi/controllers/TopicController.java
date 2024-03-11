@@ -15,33 +15,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/topics")
 public class TopicController{
     private final TopicService topicService;
-    private final UserService userService;
     private final ModelMapper modelMapper;
-    private final SecurityUtils securityUtils;
     private final SubscriptionService subscriptionService;
 
 
     public TopicController(TopicService topicService,
-                           UserService userService,
                            ModelMapper modelMapper,
-                           SecurityUtils securityUtils,
                            SubscriptionService subscriptionService) {
         this.topicService = topicService;
-        this.userService = userService;
         this.modelMapper = modelMapper;
-        this.securityUtils = securityUtils;
         this.subscriptionService = subscriptionService;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
-            Topic topic = this.topicService.findById(Long.valueOf(id));
+            Topic topic = this.topicService.findById(id);
 
             if (topic == null) {
                 return ResponseEntity.notFound().build();
@@ -57,19 +50,13 @@ public class TopicController{
 
     @GetMapping("/subscribed")
     public ResponseEntity<?> getSubscribedTopics() {
-        List<Topic> subscribedTopics = subscriptionService.getSubscribedTopics();
-        List<TopicDto> topicsDto = subscribedTopics.stream()
-                .map(topic -> modelMapper.map(topic, TopicDto.class))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok().body(topicsDto);
+        List<TopicDto> subscribedTopics = subscriptionService.getSubscribedTopics();
+        return ResponseEntity.ok().body(subscribedTopics);
     }
 
     @GetMapping("/unsubscribed")
     public ResponseEntity<?> getUnsubscribedTopics() {
-        List<Topic> unsubscribedTopics = subscriptionService.getUnsubscribedTopics();
-        List<TopicDto> topicsDto = unsubscribedTopics.stream()
-                .map(topic -> modelMapper.map(topic, TopicDto.class))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok().body(topicsDto);
+        List<TopicDto> unsubscribedTopics = subscriptionService.getUnsubscribedTopics();
+        return ResponseEntity.ok().body(unsubscribedTopics);
     }
 }
