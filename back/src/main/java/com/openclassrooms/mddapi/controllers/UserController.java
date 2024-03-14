@@ -7,12 +7,9 @@ import com.openclassrooms.mddapi.services.UserService;
 import com.openclassrooms.mddapi.utils.SecurityUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -30,6 +27,11 @@ public class UserController {
         this.securityUtils = securityUtils;
     }
 
+    /**
+     * Find a user by its ID
+     * @param id The ID of the user to find
+     * @return A ResponseEntity containing the UserGetDto if found, otherwise a not found or bad request response
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
@@ -45,6 +47,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Update a user
+     * @param userUpdateDto The user to update
+     * @return A ResponseEntity containing a success or bad request response
+     */
     @PutMapping()
     public ResponseEntity<?> update(@RequestBody UserUpdateDto userUpdateDto) {
         try {

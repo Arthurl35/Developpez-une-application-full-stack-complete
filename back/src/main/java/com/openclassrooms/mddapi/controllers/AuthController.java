@@ -41,6 +41,11 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Authenticate a user
+     * @param loginRequest
+     * @return http response entity with a jwt token
+     */
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -56,6 +61,11 @@ public class AuthController {
                 userDetails.getUsername()));
     }
 
+    /**
+     * Register a new user
+     * @param signUpRequest
+     * @return http response entity with a message
+     */
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {

@@ -17,6 +17,11 @@ public class SecurityUtils {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Get the current authenticated user
+     *
+     * @return the current authenticated user
+     */
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {

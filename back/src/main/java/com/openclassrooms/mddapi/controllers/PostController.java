@@ -1,31 +1,28 @@
 package com.openclassrooms.mddapi.controllers;
 
-import com.openclassrooms.mddapi.dto.CommentDto;
 import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.dto.PostGetDto;
-import com.openclassrooms.mddapi.models.Post;
 import com.openclassrooms.mddapi.services.PostService;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
     private PostService postService;
-    private ModelMapper modelMapper;
 
-    public PostController(PostService postService, ModelMapper modelMapper) {
+    public PostController(PostService postService) {
         this.postService = postService;
-        this.modelMapper = modelMapper;
     }
 
+    /**
+     * Add a post
+     * @param postDTO
+     * @return http status 200 if the post is added
+     */
     @PostMapping
     public ResponseEntity<?> addPost(@RequestBody PostDto postDTO) {
         try {
@@ -36,6 +33,10 @@ public class PostController {
         }
     }
 
+    /**
+     * Get all posts
+     * @return a list of all posts
+     */
     @GetMapping
     public ResponseEntity<?> getAllPosts() {
         try {
@@ -46,6 +47,11 @@ public class PostController {
         }
     }
 
+    /**
+     * Get a post by its id
+     * @param postId
+     * @return the post
+     */
     @GetMapping("/{postId}")
     public ResponseEntity<?> getPost(@PathVariable Long postId) {
         try {

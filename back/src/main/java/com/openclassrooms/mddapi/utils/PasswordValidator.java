@@ -3,22 +3,27 @@ import java.util.regex.Pattern;
 
 public class PasswordValidator {
 
+    /**
+     * Checks if the password is valid
+     * @param password the password to check
+     * @return true if the password is valid, false otherwise
+     */
     public static boolean isValid(String password) {
         if (password == null || password.length() < 8) {
             return false;
         }
 
-        //Une min
+        //Check lowercase
         if (!containsLowerCase(password)) {
             return false;
         }
 
-        // Une maj
+        // Check uppercase
         if (!containsUpperCase(password)) {
             return false;
         }
 
-        // Un caractère spécial
+        // Check special character
         if (!containsSpecialChar(password)) {
             return false;
         }

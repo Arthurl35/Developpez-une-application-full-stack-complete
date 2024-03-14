@@ -5,10 +5,8 @@ import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.dto.PostGetDto;
 import com.openclassrooms.mddapi.models.*;
 import com.openclassrooms.mddapi.repository.PostRepository;
-import com.openclassrooms.mddapi.repository.SubscriptionRepository;
 import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.utils.SecurityUtils;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +30,11 @@ public class PostService {
         this.topicRepository = topicRepository;
     }
 
+    /**
+     * Add a new post
+     * @param postDto
+     * @return the new post
+     */
     public Post addPost(PostDto postDto) {
         User currentUser = securityUtils.getCurrentUser();
 
@@ -48,6 +51,10 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    /**
+     * Get all posts
+     * @return the list of posts subscribed by the current user
+     */
     public List<PostDto> getAllPosts() {
         List<Topic> subscribedTopics = getTopics();
         List<Post> posts = postRepository.findByTopicIn(subscribedTopics);
@@ -65,6 +72,10 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Get details of a post and its comments
+     * @return the post details
+     */
     public PostGetDto getPostById(Long postId){
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
@@ -94,6 +105,10 @@ public class PostService {
         return postGetDto;
     }
 
+    /**
+     * Get the topics that the current user is subscribed to
+     * @return A list of topics that the current user is subscribed
+     */
     private List<Topic> getTopics() {
         User currentUser = securityUtils.getCurrentUser();
 

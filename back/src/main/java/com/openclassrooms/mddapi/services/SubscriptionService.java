@@ -32,6 +32,11 @@ public class SubscriptionService {
         this.topicRepository = topicRepository;
     }
 
+    /**
+     * Subscribe the current user to a topic
+     * @param topic
+     * @throws Exception if the user is already subscribed to the topic
+     */
     public void subscribeCurrentUserToTopic(Topic topic) throws Exception {
         User currentUser = securityUtils.getCurrentUser();
 
@@ -47,6 +52,11 @@ public class SubscriptionService {
         subscriptionRepository.save(subscription);
     }
 
+    /**
+     * Unsubscribe the current user from a topic
+     * @param topic
+     * @throws Exception if the user is not subscribed to the topic
+     */
     public void unsubscribeCurrentUserFromTopic(Topic topic) throws Exception {
         User currentUser = securityUtils.getCurrentUser();
 
@@ -58,6 +68,10 @@ public class SubscriptionService {
         subscriptionRepository.delete(subscription);
     }
 
+    /**
+     * Get the list of topics the current user is subscribed
+     * @return List of TopicDto
+     */
     public List<TopicDto> getSubscribedTopics() {
         return getSubscribedTopicsByCurrentUser().stream()
                 .map(topic -> {
@@ -70,6 +84,10 @@ public class SubscriptionService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Get the list of topics the current user is not subscribed
+     * @return List of TopicDto
+     */
     public List<TopicDto> getUnsubscribedTopics() {
         List<Topic> subscribedTopics = getSubscribedTopicsByCurrentUser();
         List<Topic> allTopics = topicRepository.findAll();
@@ -86,6 +104,10 @@ public class SubscriptionService {
     }
 
 
+    /**
+     * Get the list of topics the current user is subscribed
+     * @return List of Topic
+     */
     public List<Topic> getSubscribedTopicsByCurrentUser() {
         User currentUser = securityUtils.getCurrentUser();
         return subscriptionRepository.findByUser(currentUser).stream()

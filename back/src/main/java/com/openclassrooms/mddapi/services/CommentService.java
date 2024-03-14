@@ -3,18 +3,13 @@ package com.openclassrooms.mddapi.services;
 import com.openclassrooms.mddapi.dto.CommentDto;
 import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.models.Post;
-import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.CommentRepository;
 import com.openclassrooms.mddapi.repository.PostRepository;
 import com.openclassrooms.mddapi.utils.SecurityUtils;
-import org.modelmapper.ModelMapper;
-import com.openclassrooms.mddapi.models.Subscription;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -23,7 +18,6 @@ public class CommentService {
     private PostRepository postRepository;
 
     public CommentService(CommentRepository commentRepository,
-                          ModelMapper modelMapper,
                           SecurityUtils securityUtils,
                           PostRepository postRepository) {
         this.commentRepository = commentRepository;
@@ -31,6 +25,12 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
+    /**
+     * Add a comment to a post
+     * @param commentDto
+     * @param postId
+     * @return Comment
+     */
     public Comment addComment(CommentDto commentDto, Long postId) {
         User currentUser = securityUtils.getCurrentUser();
 

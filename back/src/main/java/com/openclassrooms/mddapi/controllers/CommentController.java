@@ -19,14 +19,21 @@ public class CommentController {
     @Autowired
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
+        }
+
+    /**
+     * Add a comment to a post
+     * @param postId
+     * @param commentDTO
+     * @return http status 200 if the comment is added
+     */
+    @PostMapping("posts/{postId}")
+    public ResponseEntity<?> addCommentToPost(@PathVariable Long postId, @RequestBody CommentDto commentDTO) {
+        try {
+            commentService.addComment(commentDTO, postId);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
-@PostMapping("posts/{postId}")
-public ResponseEntity<?> addCommentToPost(@PathVariable Long postId, @RequestBody CommentDto commentDTO) {
-    try {
-        commentService.addComment(commentDTO, postId);
-        return ResponseEntity.ok().build();
-    } catch (RuntimeException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
-}
 }
