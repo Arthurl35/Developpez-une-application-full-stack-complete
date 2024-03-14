@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   constructor(private sessionService: SessionService, public router: Router) { }
 
+  /**
+   * Returns an observable of the user login status.
+   */
   public $isLogged(): Observable<boolean> {
     return this.sessionService.$isLogged();
   }

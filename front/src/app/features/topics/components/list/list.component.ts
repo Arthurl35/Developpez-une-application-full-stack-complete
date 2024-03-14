@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SessionInformation } from '../../../../interfaces/sessionInformation.interface';
-import { SessionService } from '../../../../services/session.service';
 import { TopicsApiService } from "../../services/topics-api.service";
 import { Topic } from "../../interfaces/topic.interface";
 import { SubscriptionsApiService } from "../../services/subscriptions-api.service";
@@ -13,6 +11,9 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 })
 export class TopicListComponent {
 
+  /**
+   * Observable of topics that the user is not subscribed to.
+   */
   public topics$: Observable<Topic[]> = this.topicsApiService.getUnsubscribedTopics();
 
   constructor(
@@ -21,7 +22,11 @@ export class TopicListComponent {
     private matSnackBar: MatSnackBar
   ) { }
 
-  subscribe(topicId: number) {
+  /**
+   * Subscribes the current user to a topic.
+   * @param topicId The ID of the topic.
+   */
+  subscribe(topicId: number) : void{
     this.subscriptionsApiService.subscribeCurrentUserToTopic(topicId).subscribe(
       () => {
         this.matSnackBar.open('Abonnement au sujet réussi', 'Fermer', { duration: 3000 });
@@ -33,6 +38,9 @@ export class TopicListComponent {
     );
   }
 
+  /**
+   * Refreshes the list of topics.
+   */
   private refreshTopics(): void {
     this.topics$ = this.topicsApiService.getUnsubscribedTopics();
   }

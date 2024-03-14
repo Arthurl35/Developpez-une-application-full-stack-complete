@@ -11,6 +11,10 @@ export class UnauthGuard implements CanActivate {
   ) {
   }
 
+  /**
+   * Redirects to the posts page if the user is already logged in.
+   * @returns A boolean indicating whether the route can be activated.
+   */
   public canActivate(): boolean {
     if (this.sessionService.isLogged) {
       this.router.navigate(['/posts']);

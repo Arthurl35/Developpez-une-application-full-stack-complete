@@ -11,8 +11,14 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class RegisterComponent {
 
+  /**
+   * Indicates if there is an error.
+   */
   public onError = false;
 
+  /**
+   * Form for user registration.
+   */
   public form = this.fb.group({
     email: [
       '',
@@ -46,6 +52,9 @@ export class RegisterComponent {
               private matSnackBar: MatSnackBar) {
   }
 
+  /**
+   * Submits the registration request.
+   */
   public submit(): void {
     const registerRequest = this.form.value as RegisterRequest;
     this.authService.register(registerRequest).subscribe({
@@ -55,7 +64,7 @@ export class RegisterComponent {
     );
   }
 
-  public back() {
+  public back(): void {
     window.history.back();
   }
 }

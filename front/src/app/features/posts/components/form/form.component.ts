@@ -6,6 +6,7 @@ import {PostApiService} from "../../services/posts-api.service";
 import {TopicsApiService} from "../../../topics/services/topics-api.service";
 import {Observable} from "rxjs";
 import {Topic} from "../../../topics/interfaces/topic.interface";
+import {PostCreate} from "../../interfaces/postCreate.interface";
 
 @Component({
   selector: 'app-form',
@@ -15,6 +16,9 @@ export class PostFormComponent {
 
   public topics$: Observable<Topic[]> = this.topicsApiService.getSubscribedTopics();
 
+  /**
+   * Form for creating a new post.
+   */
   public postForm = this.fb.group({
     title: [
       '',
@@ -46,8 +50,11 @@ export class PostFormComponent {
   ) {
   }
 
+  /**
+   * Submits the new post.
+   */
   public submit(): void {
-    const post = this.postForm.value;
+    const post = this.postForm.value as unknown as PostCreate;
 
     this.postApiService
       .addPost(post)

@@ -18,6 +18,9 @@ export class PostListComponent {
     this.posts$ = this.postApiService.getAllPosts();
   }
 
+  /**
+   * Sorts the posts by date. Descending or ascending.
+   */
   public sort(): void {
     this.isDescendingOrder = !this.isDescendingOrder;
 

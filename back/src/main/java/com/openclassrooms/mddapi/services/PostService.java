@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.dto.CommentDto;
+import com.openclassrooms.mddapi.dto.PostCreateDto;
 import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.dto.PostGetDto;
 import com.openclassrooms.mddapi.models.*;
@@ -32,18 +33,18 @@ public class PostService {
 
     /**
      * Add a new post
-     * @param postDto
+     * @param postCreateDto
      * @return the new post
      */
-    public Post addPost(PostDto postDto) {
+    public Post addPost(PostCreateDto postCreateDto) {
         User currentUser = securityUtils.getCurrentUser();
 
-        Topic topic = topicRepository.findById(postDto.getTopicId())
-                .orElseThrow(() -> new RuntimeException("Topic not found with id: " + postDto.getTopicId()));
+        Topic topic = topicRepository.findById(postCreateDto.getTopicId())
+                .orElseThrow(() -> new RuntimeException("Topic not found with id: " + postCreateDto.getTopicId()));
 
         Post post = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
+        post.setTitle(postCreateDto.getTitle());
+        post.setDescription(postCreateDto.getDescription());
         post.setUser(currentUser);
         post.setTopic(topic);
         post.setCreatedAt(new Timestamp(System.currentTimeMillis()));

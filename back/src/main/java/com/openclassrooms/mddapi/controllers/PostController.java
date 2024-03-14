@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.controllers;
 
+import com.openclassrooms.mddapi.dto.PostCreateDto;
 import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.dto.PostGetDto;
 import com.openclassrooms.mddapi.services.PostService;
@@ -20,13 +21,13 @@ public class PostController {
 
     /**
      * Add a post
-     * @param postDTO
+     * @param postCreateDto
      * @return http status 200 if the post is added
      */
     @PostMapping
-    public ResponseEntity<?> addPost(@RequestBody PostDto postDTO) {
+    public ResponseEntity<?> addPost(@RequestBody PostCreateDto postCreateDto) {
         try {
-            postService.addPost(postDTO);
+            postService.addPost(postCreateDto);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

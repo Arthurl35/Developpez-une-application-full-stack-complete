@@ -16,6 +16,9 @@ export class LoginComponent {
 
   public hide = true;
 
+  /**
+   * Form for user login.
+   */
   public form = this.fb.group({
     usernameOrEmail: [
       '',
@@ -39,6 +42,9 @@ export class LoginComponent {
               private matSnackBar: MatSnackBar) {
   }
 
+  /**
+   * Submits the login request.
+   */
   public submit(): void {
     const loginRequest = this.form.value as LoginRequest;
     this.authService.login(loginRequest).subscribe({
@@ -50,7 +56,10 @@ export class LoginComponent {
     });
   }
 
-  public back() {
+  /**
+   * Navigates back to the previous page.
+   */
+  public back(): void {
     window.history.back();
   }
 }

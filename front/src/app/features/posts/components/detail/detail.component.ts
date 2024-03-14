@@ -13,6 +13,9 @@ import { Comment } from "../../interfaces/comment.interface";
 export class PostDetailComponent implements OnInit {
   public post: PostGet | undefined;
 
+  /**
+   * Form to add a comment
+   */
   public commentForm = this.fb.group({
     description: [
       '',
@@ -29,6 +32,9 @@ export class PostDetailComponent implements OnInit {
   ) {
   }
 
+  /**
+   * Fetches the post on initialization.
+   */
   public ngOnInit(): void {
     this.fetchPost();
   }
@@ -37,6 +43,9 @@ export class PostDetailComponent implements OnInit {
     this.router.navigate(['/posts']);
   }
 
+  /**
+   * Fetches the post from the API.
+   */
   private fetchPost(): void {
     const postId = this.route.snapshot.params['id'];
     this.postApiService.getPost(postId).subscribe(
@@ -46,6 +55,10 @@ export class PostDetailComponent implements OnInit {
     );
   }
 
+  /**
+   * Adds a comment to the post.
+   * @param postId The ID of the post.
+   */
   public addComment(postId: number): void {
     const comment = this.commentForm.value as Comment ;
     this.commentApiService.addCommentToPost(postId, comment).subscribe(

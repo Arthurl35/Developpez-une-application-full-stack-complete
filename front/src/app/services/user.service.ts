@@ -13,10 +13,20 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getById(id: string): Observable<User> {
+  /**
+   * Fetches a user by their ID.
+   * @param id The ID of the user.
+   * @returns An Observable of the user.
+   */
+  public getById(id: number): Observable<User> {
     return this.httpClient.get<User>(`${this.pathService}/${id}`);
   }
 
+  /**
+   * Updates a user.
+   * @param updatedUser The updated user.
+   * @returns An Observable of the updated user.
+   */
   public updateUser(updatedUser: userUpdate): Observable<userUpdate> {
     return this.httpClient.put<userUpdate>(this.pathService, updatedUser);
   }
