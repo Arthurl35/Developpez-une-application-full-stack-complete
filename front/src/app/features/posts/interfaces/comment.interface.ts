@@ -5,3 +5,6 @@ export interface Comment {
   createdAt: string;
   postId: number;
 }
+
+export class comment {
+}

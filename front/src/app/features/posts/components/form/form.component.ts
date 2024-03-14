@@ -1,17 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {PostApiService} from "../../services/posts-api.service";
-import {PostGet} from "../../interfaces/postGet.interface";
 import {TopicsApiService} from "../../../topics/services/topics-api.service";
 import {Observable} from "rxjs";
 import {Topic} from "../../../topics/interfaces/topic.interface";
 
 @Component({
   selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  templateUrl: './form.component.html'
 })
 export class PostFormComponent {
 

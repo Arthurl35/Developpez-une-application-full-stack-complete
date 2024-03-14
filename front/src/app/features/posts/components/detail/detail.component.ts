@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostApiService } from "../../services/posts-api.service";
 import { PostGet } from "../../interfaces/postGet.interface";
 import { CommentApiService } from "../../services/comments-api.service";
-
+import { Comment } from "../../interfaces/comment.interface";
 @Component({
   selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+  templateUrl: './detail.component.html'
 })
 export class PostDetailComponent implements OnInit {
   public post: PostGet | undefined;
@@ -19,8 +18,6 @@ export class PostDetailComponent implements OnInit {
       '',
     ]
   });
-
-
 
   constructor(
     private route: ActivatedRoute,
@@ -50,7 +47,7 @@ export class PostDetailComponent implements OnInit {
   }
 
   public addComment(postId: number): void {
-    const comment = this.commentForm.value;
+    const comment = this.commentForm.value as Comment ;
     this.commentApiService.addCommentToPost(postId, comment).subscribe(
       () => {
         this.fetchPost();

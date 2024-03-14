@@ -17,7 +17,7 @@ export class SubscriptionsApiService {
     return this.httpClient.post<Topic>(`${this.pathService}/${topicId}/unsubscribe`, {});
   }
 
-  public subscribeCurrentUserToTopic(topicId: string): Observable<any> {
-    return this.httpClient.post(`${this.pathService}/${topicId}/subscribe`, {});
+  public subscribeCurrentUserToTopic(topicId: number): Observable<Topic> {
+    return this.httpClient.post<Topic>(`${this.pathService}/${topicId}/subscribe`, {});
   }
 }

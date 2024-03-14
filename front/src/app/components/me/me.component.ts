@@ -6,7 +6,7 @@ import { userUpdate } from "../../interfaces/userUpdate.interface";
 import { SessionService } from '../../services/session.service';
 import { UserService } from '../../services/user.service';
 import { SessionInformation } from "../../interfaces/sessionInformation.interface";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from "rxjs";
 import { Topic } from "../../features/topics/interfaces/topic.interface";
 import { SubscriptionsApiService } from "../../features/topics/services/subscriptions-api.service";

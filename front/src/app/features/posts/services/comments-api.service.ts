@@ -1,9 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PostGet } from '../interfaces/postGet.interface';
 import { Comment } from '../interfaces/comment.interface';
-import {ɵElement, ɵFormGroupValue, ɵTypedOrUntyped} from "@angular/forms";
+import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +12,8 @@ export class CommentApiService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public addCommentToPost(postId: number, comment: ɵTypedOrUntyped<{
-    description: ɵElement<string[], null>
-  }, ɵFormGroupValue<{ description: ɵElement<string[], null> }>, any>): Observable<any> {
-    return this.httpClient.post(`${this.pathService}/${postId}`, comment, { responseType: 'text' });
+  public addCommentToPost(postId: number, comment: Comment): Observable<Comment> {
+    return this.httpClient.post<Comment>(`${this.pathService}/${postId}`, comment);
   }
 
 }

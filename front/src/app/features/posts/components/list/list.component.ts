@@ -5,8 +5,7 @@ import { PostGet } from "../../interfaces/postGet.interface";
 
 @Component({
   selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  templateUrl: './list.component.html'
 })
 export class PostListComponent {
 
@@ -23,8 +22,8 @@ export class PostListComponent {
     this.isDescendingOrder = !this.isDescendingOrder;
 
     this.posts$ = this.posts$.pipe(
-      map((posts) =>
-        posts.sort((a, b) => {
+      map((posts : PostGet[]) =>
+        posts.sort((a :PostGet, b : PostGet) : number => {
           if (this.isDescendingOrder) {
             return a.createdAt < b.createdAt ? 1 : -1; // Tri desc
           } else {

@@ -9,8 +9,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  templateUrl: './list.component.html'
 })
 export class TopicListComponent {
 
@@ -23,7 +22,7 @@ export class TopicListComponent {
   ) { }
 
   subscribe(topicId: number) {
-    this.subscriptionsApiService.subscribeCurrentUserToTopic(topicId.toString()).subscribe(
+    this.subscriptionsApiService.subscribeCurrentUserToTopic(topicId).subscribe(
       () => {
         this.matSnackBar.open('Abonnement au sujet réussi', 'Fermer', { duration: 3000 });
         this.refreshTopics();

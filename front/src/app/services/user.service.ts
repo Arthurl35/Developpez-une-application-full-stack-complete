@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user.interface';
-import {PostGet} from "../features/posts/interfaces/postGet.interface";
 import {userUpdate} from "../interfaces/userUpdate.interface";
 
 @Injectable({
