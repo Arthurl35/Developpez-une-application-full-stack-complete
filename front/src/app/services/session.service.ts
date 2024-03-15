@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SessionInformation } from '../interfaces/sessionInformation.interface';
 import { TokenApiService } from './token-api.service';
+import {TokenValidationResponse} from "../interfaces/tokenValidation.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +55,7 @@ export class SessionService {
   }
 
   /**
-   * Saves the session in the local storage.
+   * Saves the session to the local storage.
    * @private
    */
   private saveSession(): void {
@@ -76,19 +77,18 @@ export class SessionService {
   }
 
   /**
-   * Validates the token.
+   * Validates the token on the server side.
    * @private
    */
   private validateToken(): void {
     if (this.sessionInformation?.token) {
       this.tokenApiService.validateToken(this.sessionInformation.token).subscribe(
-        (response: {result: boolean}) : void => {
+        (response: TokenValidationResponse) : void => {
           if (!response.result) {
             this.logOut();
           }
         },
-        (error: any): void => {
-          console.error('Token validation error:', error);
+        (error: any) : void => {
           this.logOut();
         }
       );
