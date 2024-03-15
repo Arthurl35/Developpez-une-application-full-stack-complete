@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import {first, Observable} from 'rxjs';
 import { TopicsApiService } from "../../services/topics-api.service";
 import { Topic } from "../../interfaces/topic.interface";
 import { SubscriptionsApiService } from "../../services/subscriptions-api.service";
@@ -23,11 +23,13 @@ export class TopicListComponent {
   ) { }
 
   /**
-   * Subscribes the current user to a topic.
-   * @param topicId The ID of the topic.
+   * Subscribes the current user to the given topic.
+   * @param topicId The id of the topic to subscribe to.
    */
   subscribe(topicId: number) : void{
-    this.subscriptionsApiService.subscribeCurrentUserToTopic(topicId).subscribe(
+    this.subscriptionsApiService.subscribeCurrentUserToTopic(topicId).pipe(
+      first()
+    ).subscribe(
       () => {
         this.matSnackBar.open('Abonnement au sujet réussi', 'Fermer', { duration: 3000 });
         this.refreshTopics();

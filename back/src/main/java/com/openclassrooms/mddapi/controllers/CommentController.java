@@ -32,7 +32,7 @@ public class CommentController {
         try {
             commentService.addComment(commentDTO, postId);
             return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
+        } catch (Exception  e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

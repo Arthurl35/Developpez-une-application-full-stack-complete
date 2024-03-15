@@ -50,20 +50,31 @@ export class PostFormComponent {
   ) {
   }
 
+
   /**
-   * Submits the new post.
+   * Submits the form to create a new post.
    */
   public submit(): void {
     const post = this.postForm.value as unknown as PostCreate;
 
     this.postApiService
       .addPost(post)
-      .subscribe((response: any) => {
-        this.exitPage(response);
-      });
+      .subscribe(
+        (response: any) : void => {
+          this.exitPage();
+        },
+        (error: any): void => {
+          console.error('Error submitting post:', error);
+          this.matSnackBar.open("Une erreur s'est produite lors de l'ajout de l'article", 'Fermer', { duration: 3000 });
+        }
+      );
   }
 
-  private exitPage(message: string): void {
+  /**
+   * Exits the page and navigates to the posts page.
+   * @private
+   */
+  private exitPage(): void {
     this.matSnackBar.open("Article ajouté", 'Fermer', { duration: 3000 });
     this.router.navigate(['posts']);
   }

@@ -4,6 +4,7 @@ import com.openclassrooms.mddapi.dto.CommentDto;
 import com.openclassrooms.mddapi.dto.PostCreateDto;
 import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.dto.PostGetDto;
+import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.models.*;
 import com.openclassrooms.mddapi.repository.PostRepository;
 import com.openclassrooms.mddapi.repository.TopicRepository;
@@ -77,9 +78,9 @@ public class PostService {
      * Get details of a post and its comments
      * @return the post details
      */
-    public PostGetDto getPostById(Long postId){
+    public PostGetDto getPostById(Long postId) throws ResourceNotFoundException {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
 
         PostGetDto postGetDto = new PostGetDto();
         postGetDto.setId(post.getId());

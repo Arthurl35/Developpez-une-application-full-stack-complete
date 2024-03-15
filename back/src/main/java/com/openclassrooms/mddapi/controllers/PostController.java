@@ -58,7 +58,7 @@ public class PostController {
         try {
             PostGetDto postGetDto = postService.getPostById(postId);
             return ResponseEntity.ok(postGetDto);
-        } catch (RuntimeException e) {
+        } catch (Exception  e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }

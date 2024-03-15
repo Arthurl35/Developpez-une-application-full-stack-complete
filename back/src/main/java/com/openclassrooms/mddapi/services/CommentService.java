@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.dto.CommentDto;
+import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.models.Post;
 import com.openclassrooms.mddapi.models.User;
@@ -31,11 +32,11 @@ public class CommentService {
      * @param postId
      * @return Comment
      */
-    public Comment addComment(CommentDto commentDto, Long postId) {
+    public Comment addComment(CommentDto commentDto, Long postId) throws ResourceNotFoundException {
         User currentUser = securityUtils.getCurrentUser();
 
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found with id: " + commentDto.getPostId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + commentDto.getPostId()));
 
         Comment comment = new Comment();
         comment.setDescription(commentDto.getDescription());

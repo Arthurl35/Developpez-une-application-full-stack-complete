@@ -10,6 +10,7 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.security.jwt.JwtUtils;
 import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 import com.openclassrooms.mddapi.utils.PasswordValidator;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -89,4 +90,14 @@ public class AuthController {
 
         return ResponseEntity.ok("User registered successfully");
     }
+
+    @PostMapping("/api/auth/validateToken")
+    public ResponseEntity<?> validateToken(@RequestBody String token) {
+        if (jwtUtils.validateJwtToken(token)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
 }

@@ -6,11 +6,6 @@ import { SessionService } from '../services/session.service';
 export class JwtInterceptor implements HttpInterceptor {
   constructor(private sessionService: SessionService) {}
 
-  /**
-   * Intercepts the HTTP requests to add the JWT token to the headers if the user is logged in.
-   * @param request
-   * @param next
-   */
   public intercept(request: HttpRequest<any>, next: HttpHandler) {
     if (this.sessionService.isLogged) {
       request = request.clone({
