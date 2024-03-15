@@ -1,26 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { User } from '../../interfaces/user.interface';
-import { userUpdate } from "../../interfaces/userUpdate.interface";
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Topic } from '../../features/topics/interfaces/topic.interface';
+import { SubscriptionsApiService } from '../../features/topics/services/subscriptions-api.service';
+import { TopicsApiService } from '../../features/topics/services/topics-api.service';
 import { SessionService } from '../../services/session.service';
 import { UserService } from '../../services/user.service';
-import { SessionInformation } from "../../interfaces/sessionInformation.interface";
-import { FormBuilder, Validators } from '@angular/forms';
-import {Observable, Observer} from "rxjs";
-import { Topic } from "../../features/topics/interfaces/topic.interface";
-import { SubscriptionsApiService } from "../../features/topics/services/subscriptions-api.service";
-import { TopicsApiService } from "../../features/topics/services/topics-api.service";
-
+import { userUpdate } from '../../interfaces/userUpdate.interface';
+import { SessionInformation } from '../../interfaces/sessionInformation.interface';
+import { User } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-me',
   templateUrl: './me.component.html'
 })
-export class MeComponent implements OnInit {
+export class MeComponent implements OnInit, OnDestroy {
 
   public user: User | undefined;
   public topics$: Observable<Topic[]> | undefined;
+  private unsubscribe$ = new Subject<void>();
 
   /**
    * Form for updating user personal information.
@@ -56,7 +57,9 @@ export class MeComponent implements OnInit {
   public ngOnInit(): void {
     const sessionUser = this.getCurrentUser();
     if (sessionUser) {
-      this.userService.getById(sessionUser.id).subscribe((user: User) => {
+      this.userService.getById(sessionUser.id).pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe((user: User) => {
         this.user = user;
         this.form.patchValue(user);
         this.loadTopics();
@@ -68,8 +71,10 @@ export class MeComponent implements OnInit {
    * Retrieves the topics that the user is subscribed to.
    */
   private loadTopics(): void {
-    this.topicsApiService.getSubscribedTopics().subscribe((topics: Topic[]) => {
-      this.topics$ = new Observable<Topic[]>((observer: Observer<Topic[]>) => {
+    this.topicsApiService.getSubscribedTopics().pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe((topics: Topic[]) => {
+      this.topics$ = new Observable<Topic[]>((observer) => {
         observer.next(topics);
       });
     });
@@ -89,7 +94,9 @@ export class MeComponent implements OnInit {
     if (this.form.valid) {
       const updatedUser = this.form.value as userUpdate;
 
-        this.userService.updateUser(updatedUser).subscribe(response => {
+      this.userService.updateUser(updatedUser).pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe(response => {
         this.matSnackBar.open("Utilisateur modifié", 'Close', { duration: 3000 });
       });
       this.logout();
@@ -108,7 +115,9 @@ export class MeComponent implements OnInit {
    * Allows the user to unsubscribe from a topic.
    */
   public unsubscribe(topicId: number): void {
-    this.subscriptionsApiService.unsubscribeFromTopic(topicId).subscribe(() => {
+    this.subscriptionsApiService.unsubscribeFromTopic(topicId).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(() => {
       this.matSnackBar.open('Désabonnement réussi', 'Fermer', {
         duration: 3000
       });
@@ -118,5 +127,13 @@ export class MeComponent implements OnInit {
         duration: 3000
       });
     });
+  }
+
+  /**
+   * Unsubscribes from all observables when the component is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
