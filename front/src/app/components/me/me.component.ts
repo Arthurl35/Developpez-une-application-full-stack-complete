@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import {Observable, Subject, Subscriber} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Topic } from '../../features/topics/interfaces/topic.interface';
 import { SubscriptionsApiService } from '../../features/topics/services/subscriptions-api.service';
@@ -59,7 +59,7 @@ export class MeComponent implements OnInit, OnDestroy {
     if (sessionUser) {
       this.userService.getById(sessionUser.id).pipe(
         takeUntil(this.unsubscribe$)
-      ).subscribe((user: User) => {
+      ).subscribe((user: User) : void => {
         this.user = user;
         this.form.patchValue(user);
         this.loadTopics();
@@ -73,8 +73,8 @@ export class MeComponent implements OnInit, OnDestroy {
   private loadTopics(): void {
     this.topicsApiService.getSubscribedTopics().pipe(
       takeUntil(this.unsubscribe$)
-    ).subscribe((topics: Topic[]) => {
-      this.topics$ = new Observable<Topic[]>((observer) => {
+    ).subscribe((topics: Topic[]): void => {
+      this.topics$ = new Observable<Topic[]>((observer : Subscriber<Topic[]>) :void => {
         observer.next(topics);
       });
     });
@@ -117,7 +117,7 @@ export class MeComponent implements OnInit, OnDestroy {
   public unsubscribe(topicId: number): void {
     this.subscriptionsApiService.unsubscribeFromTopic(topicId).pipe(
       takeUntil(this.unsubscribe$)
-    ).subscribe(() => {
+    ).subscribe((): void => {
       this.matSnackBar.open('Désabonnement réussi', 'Fermer', {
         duration: 3000
       });

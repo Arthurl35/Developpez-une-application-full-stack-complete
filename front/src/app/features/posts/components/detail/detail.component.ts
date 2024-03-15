@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import {Observable, Subject, forkJoin, switchMap} from 'rxjs';
+import { Subject, switchMap} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PostApiService } from "../../services/posts-api.service";
 import { PostGet } from "../../interfaces/postGet.interface";

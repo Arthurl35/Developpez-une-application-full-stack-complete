@@ -55,7 +55,7 @@ export class SessionService {
   }
 
   /**
-   * Saves the session to the local storage.
+   * Saves the session in the local storage.
    * @private
    */
   private saveSession(): void {
@@ -77,7 +77,7 @@ export class SessionService {
   }
 
   /**
-   * Validates the token on the server side.
+   * Validates the token.
    * @private
    */
   private validateToken(): void {
@@ -88,7 +88,7 @@ export class SessionService {
             this.logOut();
           }
         },
-        (error: any) : void => {
+        (error: any): void => {
           this.logOut();
         }
       );

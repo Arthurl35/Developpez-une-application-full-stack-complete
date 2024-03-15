@@ -61,10 +61,10 @@ export class PostFormComponent implements OnDestroy {
     this.postApiService.addPost(post).pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(
-      () => {
+      (): void => {
         this.exitPage();
       },
-      (error: any) => {
+      (error: any) : void => {
         console.error('Error submitting post:', error);
         this.matSnackBar.open("Une erreur s'est produite lors de l'ajout de l'article", 'Fermer', { duration: 3000 });
       }
