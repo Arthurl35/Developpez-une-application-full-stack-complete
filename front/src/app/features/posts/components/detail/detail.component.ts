@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject, forkJoin } from 'rxjs';
+import {Observable, Subject, forkJoin, switchMap} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PostApiService } from "../../services/posts-api.service";
 import { PostGet } from "../../interfaces/postGet.interface";
@@ -40,6 +40,9 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     this.fetchPost();
   }
 
+  /**
+   * Navigates back to the posts list.
+   */
   public back(): void {
     this.router.navigate(['/posts']);
   }
@@ -61,22 +64,19 @@ export class PostDetailComponent implements OnInit, OnDestroy {
 
   /**
    * Adds a comment to the post.
-   * @param postId The ID of the post.
+   * @param postId
    */
   public addComment(postId: number): void {
     const comment = this.commentForm.value as Comment;
 
-    const addComment$ = this.commentApiService.addCommentToPost(postId, comment);
 
-    const fetchPost$ = this.postApiService.getPost(postId);
-
-    /**
-     * Adds the comment to the post and fetches the post again to update the view.
-     */
-    forkJoin([addComment$, fetchPost$])
-      .pipe(takeUntil(this.unsubscribe$))
+    this.commentApiService.addCommentToPost(postId, comment)
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        switchMap(() => this.postApiService.getPost(postId))
+      )
       .subscribe(
-        ([_ , post]: [Comment, PostGet]) : void => {
+        (post: PostGet) : void => {
           this.post = post;
           this.commentForm.reset();
           this.snackBar.open('Commentaire ajouté avec succès', 'Fermer', { duration: 3000 });

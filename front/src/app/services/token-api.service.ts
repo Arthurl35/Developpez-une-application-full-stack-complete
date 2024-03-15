@@ -5,11 +5,18 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class TokenService {
+export class TokenApiService {
 
-  constructor(private httpClient: HttpClient) { }
+  private pathService = 'api/auth';
 
-  public validateToken(token: string): Observable<boolean> {
-    return this.httpClient.post<boolean>('api/auth/validateToken', { token });
+  constructor(private httpClient: HttpClient) {}
+
+  /**
+   * Validates the token on the server side.
+   * @param token The token to validate.
+   * @returns An Observable indicating whether the token is valid.
+   */
+  public validateToken(tokenValue: string): Observable<{ result : boolean }> {
+    return this.httpClient.post<{ result : boolean }>(`${this.pathService}/validateToken`, { token: tokenValue });
   }
 }

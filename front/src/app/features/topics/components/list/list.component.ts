@@ -33,11 +33,11 @@ export class TopicListComponent implements OnDestroy {
     this.subscriptionsApiService.subscribeCurrentUserToTopic(topicId).pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(
-      () => {
+      (): void => {
         this.matSnackBar.open('Abonnement au sujet réussi', 'Fermer', { duration: 3000 });
         this.refreshTopics();
       },
-      (error) => {
+      (error) : void => {
         this.matSnackBar.open('Erreur lors de l\'abonnement au sujet', 'Fermer', { duration: 3000 });
       }
     );

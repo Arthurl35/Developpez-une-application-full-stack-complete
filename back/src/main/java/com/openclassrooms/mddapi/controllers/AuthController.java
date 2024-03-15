@@ -5,7 +5,9 @@ import javax.validation.Valid;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.payload.request.LoginRequest;
 import com.openclassrooms.mddapi.payload.request.SignupRequest;
+import com.openclassrooms.mddapi.payload.request.TokenValidationRequest;
 import com.openclassrooms.mddapi.payload.response.JwtResponse;
+import com.openclassrooms.mddapi.payload.response.TokenValidationResponse;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.security.jwt.JwtUtils;
 import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
@@ -91,13 +93,17 @@ public class AuthController {
         return ResponseEntity.ok("User registered successfully");
     }
 
-    @PostMapping("/api/auth/validateToken")
-    public ResponseEntity<?> validateToken(@RequestBody String token) {
-        if (jwtUtils.validateJwtToken(token)) {
-            return ResponseEntity.ok().build();
+    /**
+     * Validate a token
+     * @param request
+     * @return
+     */
+    @PostMapping("/validateToken")
+    public ResponseEntity<?> validateToken(@RequestBody TokenValidationRequest request) {
+        if (jwtUtils.validateJwtToken(request.getToken())) {
+            return ResponseEntity.ok(new TokenValidationResponse(true));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
 }

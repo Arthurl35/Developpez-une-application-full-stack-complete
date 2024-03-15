@@ -9,7 +9,7 @@
   import { MatIconModule } from '@angular/material/icon';
   import { MatToolbarModule } from '@angular/material/toolbar';
   import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-  import { JwtInterceptor } from './interceptors/jwt.interceptor';
+  import {JwtInterceptor, SESSION_SERVICE_TOKEN} from './interceptors/jwt.interceptor';
   import { MatCardModule } from '@angular/material/card';
   import {MeComponent} from "./components/me/me.component";
   import {MatInputModule} from "@angular/material/input";
@@ -25,6 +25,7 @@
   import { PostFormComponent} from "./features/posts/components/form/form.component";
   import { PostListComponent} from "./features/posts/components/list/list.component";
   import {TopicListComponent} from "./features/topics/components/list/list.component";
+  import {SessionService} from "./services/session.service";
 
   const materialModule = [
     MatButtonModule,
@@ -60,7 +61,7 @@
       MatSidenavModule
     ],
     providers: [
-      { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+      { provide: SESSION_SERVICE_TOKEN, useClass: SessionService }
     ],
     bootstrap: [AppComponent]
   })

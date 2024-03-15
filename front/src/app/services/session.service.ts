@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SessionInformation } from '../interfaces/sessionInformation.interface';
-import { TokenService } from './token-api.service';
+import { TokenApiService } from './token-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +13,21 @@ export class SessionService {
 
   private isLoggedSubject = new BehaviorSubject<boolean>(this.isLogged);
 
-  constructor(private tokenService: TokenService) {
+  constructor(private tokenApiService: TokenApiService) {
     this.loadSession();
   }
 
+  /**
+   * Returns an Observable indicating whether the user is logged in.
+   */
   public $isLogged(): Observable<boolean> {
     return this.isLoggedSubject.asObservable();
   }
 
+  /**
+   * Logs in the user.
+   * @param user
+   */
   public logIn(user: SessionInformation): void {
     this.sessionInformation = user;
     this.isLogged = true;
@@ -28,6 +35,9 @@ export class SessionService {
     this.next();
   }
 
+  /**
+   * Logs out the user.
+   */
   public logOut(): void {
     this.sessionInformation = undefined;
     this.isLogged = false;
@@ -35,41 +45,63 @@ export class SessionService {
     this.next();
   }
 
+  /**
+   * Returns the session information.
+   * @private
+   */
   private next(): void {
     this.isLoggedSubject.next(this.isLogged);
   }
 
+  /**
+   * Saves the session in the local storage.
+   * @private
+   */
   private saveSession(): void {
     localStorage.setItem('session', JSON.stringify(this.sessionInformation));
   }
 
+  /**
+   * Loads the session from the local storage.
+   * @private
+   */
   private loadSession(): void {
     const session = localStorage.getItem('session');
     if (session) {
       this.sessionInformation = JSON.parse(session);
       this.validateToken();
+      this.isLogged = true;
+      this.next();
     }
   }
 
-  private clearSession(): void {
-    localStorage.removeItem('session');
-  }
-
+  /**
+   * Validates the token.
+   * @private
+   */
   private validateToken(): void {
     if (this.sessionInformation?.token) {
-      this.tokenService.validateToken(this.sessionInformation.token).subscribe(
-          (isValid: any) => {
-          if (!isValid) {
-            this.logOut(); // Log out if token is not valid
+      this.tokenApiService.validateToken(this.sessionInformation.token).subscribe(
+        (response: {result: boolean}) : void => {
+          if (!response.result) {
+            this.logOut();
           }
         },
-          (error: any) => {
+        (error: any): void => {
           console.error('Token validation error:', error);
-          this.logOut(); // Log out on token validation error
+          this.logOut();
         }
       );
     } else {
-      this.logOut(); // Log out if token is missing
+      this.logOut();
     }
+  }
+
+  /**
+   * Clears the session from the local storage.
+   * @private
+   */
+  private clearSession(): void {
+    localStorage.removeItem('session');
   }
 }
