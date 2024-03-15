@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Component, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { PostApiService } from "../../services/posts-api.service";
 import { PostGet } from "../../interfaces/postGet.interface";
 
@@ -7,10 +8,11 @@ import { PostGet } from "../../interfaces/postGet.interface";
   selector: 'app-list',
   templateUrl: './list.component.html'
 })
-export class PostListComponent {
+export class PostListComponent implements OnDestroy {
 
   public posts$: Observable<PostGet[]>;
   public isDescendingOrder: boolean = false;
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private postApiService: PostApiService
@@ -25,8 +27,9 @@ export class PostListComponent {
     this.isDescendingOrder = !this.isDescendingOrder;
 
     this.posts$ = this.posts$.pipe(
-      map((posts : PostGet[]) =>
-        posts.sort((a :PostGet, b : PostGet) : number => {
+      takeUntil(this.unsubscribe$),
+      map((posts: PostGet[]) =>
+        posts.sort((a: PostGet, b: PostGet): number => {
           if (this.isDescendingOrder) {
             return a.createdAt < b.createdAt ? 1 : -1; // Tri desc
           } else {
@@ -35,5 +38,13 @@ export class PostListComponent {
         })
       )
     );
+  }
+
+  /**
+   * Unsubscribes from the Subject when the component is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
